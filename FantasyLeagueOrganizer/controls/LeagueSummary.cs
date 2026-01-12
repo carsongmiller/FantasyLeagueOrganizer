@@ -52,7 +52,7 @@ namespace FantasyLeagueOrganizer.controls
             //Now update all
 			foreach (var teamDisplay in flowLayoutPanel1.Controls.OfType<TeamDisplaySmall>())
             {
-                teamDisplay.Refresh();
+                teamDisplay.Update();
             }
         }
     }

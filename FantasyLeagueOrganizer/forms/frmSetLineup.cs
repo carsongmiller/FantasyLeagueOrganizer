@@ -21,7 +21,7 @@ namespace FantasyLeagueOrganizer
             tbTeamName.BackColor = team.Color;
 
             lineupEditor1.SetTeam(team);
-            freeAgentList1.SetLeague(team.League);
+            freeAgentsLarge1.SetLeague(team.League);
 		}
 
         public void frmSetLineup_Shown(object sender, EventArgs e)
@@ -31,7 +31,7 @@ namespace FantasyLeagueOrganizer
 
 		public void btnAddToTeam_Click(object sender, EventArgs e)
         {
-            var selectedItem = freeAgentList1.SelectedItem;
+            var selectedItem = freeAgentsLarge1.SelectedItem;
             if (selectedItem == null)
             {
                 return;
@@ -40,6 +40,7 @@ namespace FantasyLeagueOrganizer
             selectedItem.AddToTeam(Team);
 
             lineupEditor1.UpdateAllCategories();
+            freeAgentsLarge1.Update();
 		}
 	}
 }

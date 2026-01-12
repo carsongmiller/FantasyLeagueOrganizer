@@ -14,18 +14,22 @@ namespace FantasyLeagueOrganizer
 	{
 		public Team Team;
 
-		public TeamDisplaySmall(Team team)
+		public TeamDisplaySmall()
 		{
 			InitializeComponent();
+		}
+
+		public TeamDisplaySmall(Team team) : this()
+		{
 			Team = team;
 		}
 
-		public void Refresh()
+		public void Update()
 		{
 			BackColor = Team.Color;
 
 			lblName.Text = Team.Name;
-			//lblRecord.Text = $"{Team.Wins} - {Team.Losses}";
+			lblRecord.Text = Team.RecordString;
 
 			if (Team.ValidateLineup())
 			{

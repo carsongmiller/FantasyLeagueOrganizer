@@ -14,7 +14,7 @@ namespace FantasyLeagueOrganizer
 		public DbSet<Team> Teams => Set<Team>();
 		public DbSet<Item> Items => Set<Item>();
 		public DbSet<Category> Categories => Set<Category>();
-		public DbSet<StaticRankingProvider> RankingProviders => Set<StaticRankingProvider>();
+		public DbSet<RankingProvider> RankingProviders => Set<RankingProvider>();
 		public DbSet<Matchup> Matchups => Set<Matchup>();
 
 		protected override void OnConfiguring(DbContextOptionsBuilder options)

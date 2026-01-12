@@ -1,6 +1,6 @@
 ﻿namespace FantasyLeagueOrganizer.controls
 {
-    partial class FreeAgentList
+    partial class FreeAgentsSmall
     {
         /// <summary> 
         /// Required designer variable.

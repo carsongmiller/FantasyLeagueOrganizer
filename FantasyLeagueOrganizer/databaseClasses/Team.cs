@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,21 @@ namespace FantasyLeagueOrganizer
 		public ICollection<Item> Roster => League.Items.Where(i => i.TeamId == Id).ToList();
 
 		public ICollection<Item> Lineup => League.Items.Where(i => i.TeamId == Id && i.IsInLineup).ToList();
+
+		[NotMapped]
+		public int Wins => League.GetMatchups(this).Where(m => m.Winner == this).Count();
+
+		[NotMapped]
+		public int Losses => League.GetMatchups(this).Where(m => m.Loser == this).Count();
+
+		[NotMapped]
+		public int Ties => League.GetMatchups(this).Where(m => m.Result == Matchup.MatchupResult.Tie).Count();
+
+		/// <summary>
+		/// The team's record, in the form of "W:L:T"
+		/// </summary>
+		[NotMapped]
+		public string RecordString => $"{Wins} : {Losses} : {Ties}";
 
 		public Team() { }
 

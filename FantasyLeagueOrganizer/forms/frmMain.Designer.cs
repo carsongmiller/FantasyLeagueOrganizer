@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            button1 = new Button();
+            btnRecreateLeague = new Button();
             listItems = new ListBox();
             btnLoadLeague = new Button();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            btnFreeAgents = new Button();
             leagueSummary1 = new FantasyLeagueOrganizer.controls.LeagueSummary();
             btnSaveLeague = new Button();
             grpTeams = new GroupBox();
@@ -65,6 +66,11 @@
             btnAddOrUpdateItem = new Button();
             tbNewItem = new TextBox();
             tabPage2 = new TabPage();
+            tbMessages = new TextBox();
+            label6 = new Label();
+            nudNumWeeks = new NumericUpDown();
+            btnGenerateSchedule = new Button();
+            leagueSummary2 = new FantasyLeagueOrganizer.controls.LeagueSummary();
             colorDialog1 = new ColorDialog();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -72,17 +78,19 @@
             grpCategories.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudRequiredCount).BeginInit();
             grpItems.SuspendLayout();
+            tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudNumWeeks).BeginInit();
             SuspendLayout();
             // 
-            // button1
+            // btnRecreateLeague
             // 
-            button1.Location = new Point(1179, 6);
-            button1.Name = "button1";
-            button1.Size = new Size(115, 23);
-            button1.TabIndex = 0;
-            button1.Text = "Create League";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnRecreateLeague.Location = new Point(215, 35);
+            btnRecreateLeague.Name = "btnRecreateLeague";
+            btnRecreateLeague.Size = new Size(201, 23);
+            btnRecreateLeague.TabIndex = 0;
+            btnRecreateLeague.Text = "Recreate League";
+            btnRecreateLeague.UseVisualStyleBackColor = true;
+            btnRecreateLeague.Click += btnRecreateLeague_Click;
             // 
             // listItems
             // 
@@ -117,21 +125,32 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(btnFreeAgents);
             tabPage1.Controls.Add(leagueSummary1);
             tabPage1.Controls.Add(btnSaveLeague);
             tabPage1.Controls.Add(grpTeams);
             tabPage1.Controls.Add(btnRefreshInterface);
             tabPage1.Controls.Add(grpCategories);
             tabPage1.Controls.Add(grpItems);
-            tabPage1.Controls.Add(button1);
+            tabPage1.Controls.Add(btnRecreateLeague);
             tabPage1.Controls.Add(btnLoadLeague);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
             tabPage1.Size = new Size(1348, 648);
             tabPage1.TabIndex = 0;
-            tabPage1.Text = "View";
+            tabPage1.Text = "Setup";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnFreeAgents
+            // 
+            btnFreeAgents.Location = new Point(422, 6);
+            btnFreeAgents.Name = "btnFreeAgents";
+            btnFreeAgents.Size = new Size(201, 23);
+            btnFreeAgents.TabIndex = 14;
+            btnFreeAgents.Text = "Free Agents";
+            btnFreeAgents.UseVisualStyleBackColor = true;
+            btnFreeAgents.Click += btnFreeAgents_Click;
             // 
             // leagueSummary1
             // 
@@ -256,7 +275,6 @@
             label2.Size = new Size(82, 15);
             label2.TabIndex = 9;
             label2.Text = "Current Name";
-            label2.Click += label2_Click;
             // 
             // btnAddOrUpdateTeam
             // 
@@ -447,13 +465,61 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(tbMessages);
+            tabPage2.Controls.Add(label6);
+            tabPage2.Controls.Add(nudNumWeeks);
+            tabPage2.Controls.Add(btnGenerateSchedule);
+            tabPage2.Controls.Add(leagueSummary2);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(1348, 648);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "Modify";
+            tabPage2.Text = "Schedule";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tbMessages
+            // 
+            tbMessages.Location = new Point(584, 6);
+            tbMessages.Multiline = true;
+            tbMessages.Name = "tbMessages";
+            tbMessages.ScrollBars = ScrollBars.Vertical;
+            tbMessages.Size = new Size(358, 425);
+            tbMessages.TabIndex = 4;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(17, 39);
+            label6.Name = "label6";
+            label6.Size = new Size(51, 15);
+            label6.TabIndex = 3;
+            label6.Text = "# Weeks";
+            // 
+            // nudNumWeeks
+            // 
+            nudNumWeeks.Location = new Point(101, 37);
+            nudNumWeeks.Name = "nudNumWeeks";
+            nudNumWeeks.Size = new Size(120, 23);
+            nudNumWeeks.TabIndex = 2;
+            nudNumWeeks.Value = new decimal(new int[] { 3, 0, 0, 0 });
+            // 
+            // btnGenerateSchedule
+            // 
+            btnGenerateSchedule.Location = new Point(17, 66);
+            btnGenerateSchedule.Name = "btnGenerateSchedule";
+            btnGenerateSchedule.Size = new Size(138, 23);
+            btnGenerateSchedule.TabIndex = 1;
+            btnGenerateSchedule.Text = "Generate Schedule";
+            btnGenerateSchedule.UseVisualStyleBackColor = true;
+            btnGenerateSchedule.Click += btnGenerateSchedule_Click;
+            // 
+            // leagueSummary2
+            // 
+            leagueSummary2.Location = new Point(948, 6);
+            leagueSummary2.Name = "leagueSummary2";
+            leagueSummary2.Size = new Size(394, 425);
+            leagueSummary2.TabIndex = 0;
             // 
             // frmMain
             // 
@@ -473,12 +539,15 @@
             ((System.ComponentModel.ISupportInitialize)nudRequiredCount).EndInit();
             grpItems.ResumeLayout(false);
             grpItems.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudNumWeeks).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Button button1;
+        private Button btnRecreateLeague;
 		private ListBox listItems;
 		private Button btnLoadLeague;
 		private TabControl tabControl1;
@@ -515,5 +584,11 @@
         private NumericUpDown nudRequiredCount;
         private Button btnSetLineup;
         private controls.LeagueSummary leagueSummary1;
+        private Button btnGenerateSchedule;
+        private controls.LeagueSummary leagueSummary2;
+        private Label label6;
+        private NumericUpDown nudNumWeeks;
+        private TextBox tbMessages;
+        private Button btnFreeAgents;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,9 @@ namespace FantasyLeagueOrganizer
 		public Guid LeagueId { get; set; }
 
 		public bool IsInLineup { get; private set; }
+
+		[NotMapped]
+		public bool IsFreeAgent => TeamId == null;
 
 		/// <summary>
 		/// The Guid of the roster rule to which this item contributes, or null if it is not assigned to any roster slot

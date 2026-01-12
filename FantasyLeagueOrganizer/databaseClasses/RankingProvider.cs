@@ -9,15 +9,15 @@ namespace FantasyLeagueOrganizer
 	/// <summary>
 	/// A ranking provider that is simply a list of rankings for a set of items.  Completely static and pre-determined.
 	/// </summary>
-	public class StaticRankingProvider : IRankingProvider
+	public class RankingProvider
 	{
 		public Guid Id { get; set; }
 		public string Name { get; set; }
 		private readonly Dictionary<Guid, int> Scores;
 
-		public StaticRankingProvider() { }
+		public RankingProvider() { }
 
-		public StaticRankingProvider(string name, Dictionary<Guid, int> scores)
+		public RankingProvider(string name, Dictionary<Guid, int> scores)
 		{
 			Name = name;
 			Scores = scores;

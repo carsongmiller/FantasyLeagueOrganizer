@@ -31,8 +31,8 @@
             label1 = new Label();
             tbTeamName = new TextBox();
             lineupEditor1 = new FantasyLeagueOrganizer.controls.LineupEditor();
-            freeAgentList1 = new FantasyLeagueOrganizer.controls.FreeAgentList();
             btnAddToTeam = new Button();
+            freeAgentsLarge1 = new FantasyLeagueOrganizer.controls.FreeAgentsLarge();
             SuspendLayout();
             // 
             // label1
@@ -55,17 +55,11 @@
             // 
             // lineupEditor1
             // 
-            lineupEditor1.Location = new Point(328, 35);
+            lineupEditor1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lineupEditor1.Location = new Point(691, 64);
             lineupEditor1.Name = "lineupEditor1";
-            lineupEditor1.Size = new Size(1046, 412);
+            lineupEditor1.Size = new Size(683, 477);
             lineupEditor1.TabIndex = 3;
-            // 
-            // freeAgentList1
-            // 
-            freeAgentList1.Location = new Point(12, 64);
-            freeAgentList1.Name = "freeAgentList1";
-            freeAgentList1.Size = new Size(310, 383);
-            freeAgentList1.TabIndex = 4;
             // 
             // btnAddToTeam
             // 
@@ -75,15 +69,23 @@
             btnAddToTeam.TabIndex = 5;
             btnAddToTeam.Text = "Add to Team";
             btnAddToTeam.UseVisualStyleBackColor = true;
-            btnAddToTeam.Click += this.btnAddToTeam_Click;
+            btnAddToTeam.Click += btnAddToTeam_Click;
+            // 
+            // freeAgentsLarge1
+            // 
+            freeAgentsLarge1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            freeAgentsLarge1.Location = new Point(12, 64);
+            freeAgentsLarge1.Name = "freeAgentsLarge1";
+            freeAgentsLarge1.Size = new Size(673, 477);
+            freeAgentsLarge1.TabIndex = 6;
             // 
             // frmSetLineup
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1386, 553);
+            Controls.Add(freeAgentsLarge1);
             Controls.Add(btnAddToTeam);
-            Controls.Add(freeAgentList1);
             Controls.Add(lineupEditor1);
             Controls.Add(tbTeamName);
             Controls.Add(label1);
@@ -99,7 +101,7 @@
         private Label label1;
         private TextBox tbTeamName;
         private controls.LineupEditor lineupEditor1;
-        private controls.FreeAgentList freeAgentList1; 
         private Button btnAddToTeam;
+        private controls.FreeAgentsLarge freeAgentsLarge1;
     }
 }

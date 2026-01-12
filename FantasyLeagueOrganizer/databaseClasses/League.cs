@@ -19,6 +19,10 @@ namespace FantasyLeagueOrganizer
 		public string DisplayNameTeamSingular { get; set; } = "Team";
 		public string DisplayNameTeamPlural { get; set; } = "Teams";
 
+		public int WinPointValue { get; set; } = 3;
+		public int LossPointValue { get; set; } = 0;
+		public int TiePointValue { get; set; } = 1;
+
 		/// <summary>
 		/// All teams in the league
 		/// </summary>
@@ -36,6 +40,9 @@ namespace FantasyLeagueOrganizer
 		/// </summary>
 		public IReadOnlyCollection<Category> Categories => _categories;
 		private readonly List<Category> _categories = new();
+
+		public IReadOnlyCollection<Matchup> Matchups => _matchups;
+		private readonly List<Matchup> _matchups = new();
 
 		public League() : this("New League") { }
 
@@ -63,6 +70,11 @@ namespace FantasyLeagueOrganizer
 		public void AddCategory(Category category)
 		{
 			_categories.Add(category);
+		}
+
+		public void AddMatchup(Matchup matchup)
+		{
+			_matchups.Add(matchup);
 		}
 
 		public bool ContainsTeam(string name)
@@ -128,6 +140,37 @@ namespace FantasyLeagueOrganizer
 			}
 
 			_categories.Remove(category);
+		}
+
+		/// <summary>
+		/// Get all matchups in a given week
+		/// </summary>
+		/// <param name="week"></param>
+		/// <returns></returns>
+		public List<Matchup> GetMatchups(int week)
+		{
+			return _matchups.Where(m => m.Week == week).ToList();
+		}
+
+		/// <summary>
+		/// Get all matchups for a given team
+		/// </summary>
+		/// <param name="team">The team in question</param>
+		/// <returns></returns>
+		public List<Matchup> GetMatchups(Team team)
+		{
+			return _matchups.Where(m => m.TeamIdA == team.Id || m.TeamIdB == team.Id).ToList();
+		}
+
+		/// <summary>
+		/// Returns the team's single matchup from the given week
+		/// </summary>
+		/// <param name="team"></param>
+		/// <param name="week"></param>
+		/// <returns></returns>
+		public Matchup GetMatchup(Team team, int week)
+		{
+			return _matchups.Where(m => m.Week == week && (m.TeamIdA == team.Id || m.TeamIdB == team.Id)).Single();
 		}
 	}
 }

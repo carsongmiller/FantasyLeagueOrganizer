@@ -8,10 +8,10 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer.controls
 {
-    public partial class FreeAgentList : UserControl
+    public partial class FreeAgentsSmall : UserControl
     {
         private League League;
-        public FreeAgentList()
+        public FreeAgentsSmall()
         {
             InitializeComponent();
 
