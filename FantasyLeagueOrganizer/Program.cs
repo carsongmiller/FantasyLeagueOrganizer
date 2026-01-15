@@ -1,3 +1,5 @@
+using FantasyLeagueOrganizer.Forms;
+
 namespace FantasyLeagueOrganizer
 {
 	internal static class Program

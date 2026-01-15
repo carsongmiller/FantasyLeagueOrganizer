@@ -24,10 +24,9 @@ namespace FantasyLeagueOrganizer
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Team>()
-				.Ignore(t => t.Roster)
-				.Ignore(t => t.Lineup)
-				.Ignore(t => t.Color);
+			modelBuilder.Entity<Item>()
+				.HasMany(i => i.Categories)
+				.WithMany(c => c.Items);
 
 			base.OnModelCreating(modelBuilder);
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,13 +19,23 @@ namespace FantasyLeagueOrganizer
 		/// </summary>
 		public string ColorCode { get; set; } = "#FFFFFF";
 
-		public Color Color => ColorTranslator.FromHtml(ColorCode);
+		[NotMapped]
+		public Color Color {
+			get => ColorTranslator.FromHtml(ColorCode);
+			set => ColorCode = $"#{value.R:X2}{value.G:X2}{value.B:X2}";
+		}
 
 		public League League { get; set; }
 		public Guid LeagueId { get; set; }
 
+		/// <summary>
+		/// First position = 1
+		/// </summary>
+		public int DraftPosition { get; set; } = int.MaxValue;
+
 		public ICollection<Item> Roster => League.Items.Where(i => i.TeamId == Id).ToList();
 
+		[NotMapped]
 		public ICollection<Item> Lineup => League.Items.Where(i => i.TeamId == Id && i.IsInLineup).ToList();
 
 		[NotMapped]
@@ -36,11 +47,23 @@ namespace FantasyLeagueOrganizer
 		[NotMapped]
 		public int Ties => League.GetMatchups(this).Where(m => m.Result == Matchup.MatchupResult.Tie).Count();
 
+		public bool LineupIsValid 
+		{
+			get
+			{
+				foreach (var category in League.Categories)
+				{
+					if (!category.SatisfiedByTeam(this)) return false;
+				}
+				return true;
+			}
+		}
+
 		/// <summary>
 		/// The team's record, in the form of "W:L:T"
 		/// </summary>
 		[NotMapped]
-		public string RecordString => $"{Wins} : {Losses} : {Ties}";
+		public string RecordString => $"{Wins} - {Losses} - {Ties}";
 
 		public Team() { }
 

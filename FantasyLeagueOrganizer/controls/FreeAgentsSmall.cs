@@ -29,18 +29,11 @@ namespace FantasyLeagueOrganizer.controls
 
         public void Refresh()
         {
-            foreach (var item in League.Items)
-            {
-                if (item.TeamId == null)
-                {
-                    listFreeAgents.Items.Add(item);
-                }
-            }
+            listFreeAgents.Items.Clear();
+            chkListCategories.Items.Clear();
 
-            foreach (var category in League.Categories)
-            {
-                chkListCategories.Items.Add(category);
-            }
+			listFreeAgents.Items.AddRange(League.FreeAgents.ToArray());
+            chkListCategories.Items.AddRange(League.Categories.ToArray());
         }
 
         private void listFreeAgents_SelectedIndexChanged(object sender, EventArgs e)

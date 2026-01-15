@@ -1,6 +1,6 @@
 ﻿namespace FantasyLeagueOrganizer.Forms
 {
-    partial class frmFreeAgents
+    partial class frmDraft
     {
         /// <summary>
         /// Required designer variable.
@@ -28,53 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDraft));
             freeAgentsLarge1 = new FantasyLeagueOrganizer.controls.FreeAgentsLarge();
-            listTeams = new ListBox();
-            teamDisplaySmall1 = new TeamDisplaySmall();
             SuspendLayout();
             // 
             // freeAgentsLarge1
             // 
-            freeAgentsLarge1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            freeAgentsLarge1.Location = new Point(324, 49);
+            freeAgentsLarge1.Location = new Point(12, 12);
             freeAgentsLarge1.Name = "freeAgentsLarge1";
-            freeAgentsLarge1.Size = new Size(1047, 558);
+            freeAgentsLarge1.Size = new Size(640, 637);
             freeAgentsLarge1.TabIndex = 0;
             // 
-            // listTeams
-            // 
-            listTeams.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            listTeams.FormattingEnabled = true;
-            listTeams.Location = new Point(12, 49);
-            listTeams.Name = "listTeams";
-            listTeams.Size = new Size(306, 559);
-            listTeams.TabIndex = 1;
-            listTeams.SelectedIndexChanged += listTeams_SelectedIndexChanged;
-            // 
-            // teamDisplaySmall1
-            // 
-            teamDisplaySmall1.Location = new Point(12, 12);
-            teamDisplaySmall1.Name = "teamDisplaySmall1";
-            teamDisplaySmall1.Size = new Size(365, 31);
-            teamDisplaySmall1.TabIndex = 2;
-            // 
-            // frmFreeAgents
+            // frmDraft
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1383, 619);
-            Controls.Add(teamDisplaySmall1);
-            Controls.Add(listTeams);
+            ClientSize = new Size(1405, 661);
             Controls.Add(freeAgentsLarge1);
-            Name = "frmFreeAgents";
-            Text = "Free Agents";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "frmDraft";
+            Text = "Draft";
             ResumeLayout(false);
         }
 
         #endregion
 
         private controls.FreeAgentsLarge freeAgentsLarge1;
-        private ListBox listTeams;
-        private TeamDisplaySmall teamDisplaySmall1;
     }
 }

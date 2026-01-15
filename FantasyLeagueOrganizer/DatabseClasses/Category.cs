@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,13 +16,22 @@ namespace FantasyLeagueOrganizer
 		/// <summary>
 		/// The items which belong to this category
 		/// </summary>
-		public IReadOnlyCollection<Item> Items => _items;
-		private readonly HashSet<Item> _items = new();
+		[NotMapped]
+		public List<Item> Items => League.Items.Where(i => i.Categories.Contains(this)).ToList();
 
 		public League League { get; set; }
 		public Guid LeagueId { get; set; }
 
 		public int RequiredCount { get; set; } = 0;
+
+		[NotMapped]
+		public List<Item> FreeAgents {
+			get
+			{ 
+				var result = Items.Where(i => i.TeamId == null).ToList();
+				return result;
+			}
+		}
 
 		public Category() { }
 
@@ -40,21 +50,6 @@ namespace FantasyLeagueOrganizer
         {
 			return $"[Category] {Name}";
         }
-
-		public void AddItem(Item item)
-		{
-			_items.Add(item);
-		}
-
-		public void RemoveItem(Item item)
-		{
-			if (!_items.Contains(item))
-			{
-				throw new ArgumentException($"The item ({item.Name}) does not exist in this category ({Name})");
-			}
-
-			_items.Remove(item);
-		}
 
 		public bool SatisfiedByTeam(Team team)
 		{

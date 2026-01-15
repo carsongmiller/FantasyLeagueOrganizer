@@ -6,13 +6,13 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace FantasyLeagueOrganizer
+namespace FantasyLeagueOrganizer.Forms
 {
-    public partial class frmSetLineup : Form
+    public partial class frmModifyLineup : Form
     {
         private Team Team;
 
-        public frmSetLineup(Team team)
+        public frmModifyLineup(Team team)
         {
             InitializeComponent();
 

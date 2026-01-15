@@ -12,17 +12,21 @@ namespace FantasyLeagueOrganizer
 	public class Matchup
 	{
 		public Guid Id { get; set; }
+		public League League { get; set; }
+		public Guid LeagueId { get; set; }
 		public Team TeamA { get; set; }
 		public Guid TeamIdA { get; set; }
 		public Team? TeamB { get; set; }
 		public Guid? TeamIdB { get; set; }
+		public int ScoreA { get; set; } = 0;
+		public int ScoreB { get; set; } = 0;
 
 		/// <summary>
 		/// The week of the season during which this matchup will occur
 		/// </summary>
 		public int Week { get; set; }
 
-		public MatchupResult Result { get; set; } = MatchupResult.NotYetPlayed;
+		public MatchupResult Result { get; set; } = MatchupResult.Incomplete;
 
 		public Team Winner
 		{
@@ -49,10 +53,11 @@ namespace FantasyLeagueOrganizer
 			AWon,
 			BWon,
 			Tie,
-			NotYetPlayed
+			Incomplete
 		}
 
-		public RankingProvider RankingProvider { get; set; }
+		public RankingProvider? RankingProvider { get; set; }
+		public Guid? RankingProviderId { get; set; }
 
 		/// <summary>
 		/// Whether this matchup represents a bye week for TeamA
@@ -60,14 +65,19 @@ namespace FantasyLeagueOrganizer
 		[NotMapped]
 		public bool IsBye => TeamB == null;
 
+		[NotMapped]
+		public string ScoreString => $"({ScoreA} - {ScoreB})";
+
 		public Matchup ()
 		{
 
 		}
 
-		public Matchup(int week, Team teamA, Team? teamB)
+		public Matchup(int week, Team teamA, Team? teamB, League league)
 		{
 			Week = week;
+			League = league;
+			LeagueId = league.Id;
 
 			if (teamA == null && teamB == null)
 			{
@@ -102,6 +112,15 @@ namespace FantasyLeagueOrganizer
 		{
 			var teamBText = TeamB != null ? TeamB.Name : "BYE";
 			return $"[Week {Week}] {TeamA.Name} vs. {teamBText}";
+		}
+
+		/// <summary>
+		/// This matchup is being deleted, most likely because one of the teams in it is being deleted.  This method will perform any necessary cleanup, such as removing references to the team objects
+		/// </summary>
+		public void Delete()
+		{
+			TeamA = null;
+			TeamB = null;
 		}
 	}
 }

@@ -11,8 +11,8 @@ namespace FantasyLeagueOrganizer
 	{
 		public MatchupResult Resolve(Matchup matchup, Team teamA, Team teamB)
 		{
-			int scoreA = teamA.Lineup.Sum(i => matchup.RankingProvider.GetScore(i));
-			int scoreB = teamB.Lineup.Sum(i => matchup.RankingProvider.GetScore(i));
+			int scoreA = teamA.Lineup.Sum(i => matchup.RankingProvider.GetItemScore(i));
+			int scoreB = teamB.Lineup.Sum(i => matchup.RankingProvider.GetItemScore(i));
 
 			Team winner = scoreA > scoreB ? matchup.TeamA : matchup.TeamB;
 

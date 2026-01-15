@@ -52,7 +52,7 @@ namespace FantasyLeagueOrganizer.controls
             chkListAllItems.Items.Clear();
 
 			//Get the items in the team's roster which are valid for the given category, and add them to the checked list box
-			foreach (var item in Team.Roster.Where(i => i.ValidCategories.Contains(Category)))
+			foreach (var item in Team.Roster.Where(i => i.Categories.Contains(Category)))
             {
                 chkListAllItems.Items.Add(item, item.IsInLineup && item.AssignedCategoryId == Category.Id);
             }

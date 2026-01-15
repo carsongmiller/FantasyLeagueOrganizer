@@ -1,6 +1,6 @@
-﻿namespace FantasyLeagueOrganizer
+﻿namespace FantasyLeagueOrganizer.Forms
 {
-    partial class frmSetLineup
+    partial class frmModifyLineup
     {
         /// <summary>
         /// Required designer variable.

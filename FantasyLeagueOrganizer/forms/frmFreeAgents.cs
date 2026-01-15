@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace FantasyLeagueOrganizer.forms
+namespace FantasyLeagueOrganizer.Forms
 {
     public partial class frmFreeAgents : Form
     {
@@ -27,7 +27,8 @@ namespace FantasyLeagueOrganizer.forms
 
             foreach (var team in League.Teams)
             {
-                listTeams.Items.Add(team);
+				if (team.Name == "bye") continue; // skip bye teams
+				listTeams.Items.Add(team);
             }
         }
 

@@ -28,11 +28,7 @@ namespace FantasyLeagueOrganizer.controls
         public void Update()
         {
             listFreeAgents.Items.Clear();
-
-            foreach (var item in Category.Items.Where(i => i.IsFreeAgent))
-            {
-                listFreeAgents.Items.Add(item);
-            }
+            listFreeAgents.Items.AddRange(Category.FreeAgents.ToArray());
         }
 
         public void Deselect()
