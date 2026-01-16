@@ -36,19 +36,27 @@
             btnCancel = new Button();
             btnRandomize = new Button();
             btnAlphabetical = new Button();
+            nudNumRounds = new NumericUpDown();
+            label1 = new Label();
+            radSnake = new RadioButton();
+            panel1 = new Panel();
+            radLinear = new RadioButton();
+            label2 = new Label();
+            ((System.ComponentModel.ISupportInitialize)nudNumRounds).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // listDraftOrder
             // 
             listDraftOrder.FormattingEnabled = true;
-            listDraftOrder.Location = new Point(261, 98);
+            listDraftOrder.Location = new Point(129, 12);
             listDraftOrder.Name = "listDraftOrder";
             listDraftOrder.Size = new Size(234, 199);
             listDraftOrder.TabIndex = 0;
             // 
             // bnMoveUp
             // 
-            bnMoveUp.Location = new Point(501, 98);
+            bnMoveUp.Location = new Point(369, 12);
             bnMoveUp.Name = "bnMoveUp";
             bnMoveUp.Size = new Size(111, 23);
             bnMoveUp.TabIndex = 1;
@@ -58,7 +66,7 @@
             // 
             // btnMoveDown
             // 
-            btnMoveDown.Location = new Point(501, 127);
+            btnMoveDown.Location = new Point(369, 41);
             btnMoveDown.Name = "btnMoveDown";
             btnMoveDown.Size = new Size(111, 23);
             btnMoveDown.TabIndex = 2;
@@ -68,7 +76,7 @@
             // 
             // btnProceed
             // 
-            btnProceed.Location = new Point(384, 415);
+            btnProceed.Location = new Point(252, 302);
             btnProceed.Name = "btnProceed";
             btnProceed.Size = new Size(111, 23);
             btnProceed.TabIndex = 3;
@@ -78,7 +86,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(267, 415);
+            btnCancel.Location = new Point(129, 302);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(111, 23);
             btnCancel.TabIndex = 4;
@@ -88,7 +96,7 @@
             // 
             // btnRandomize
             // 
-            btnRandomize.Location = new Point(144, 98);
+            btnRandomize.Location = new Point(12, 12);
             btnRandomize.Name = "btnRandomize";
             btnRandomize.Size = new Size(111, 23);
             btnRandomize.TabIndex = 5;
@@ -98,7 +106,7 @@
             // 
             // btnAlphabetical
             // 
-            btnAlphabetical.Location = new Point(144, 127);
+            btnAlphabetical.Location = new Point(12, 41);
             btnAlphabetical.Name = "btnAlphabetical";
             btnAlphabetical.Size = new Size(111, 23);
             btnAlphabetical.TabIndex = 6;
@@ -106,12 +114,72 @@
             btnAlphabetical.UseVisualStyleBackColor = true;
             btnAlphabetical.Click += btnAlphabetical_Click;
             // 
+            // nudNumRounds
+            // 
+            nudNumRounds.Location = new Point(129, 217);
+            nudNumRounds.Name = "nudNumRounds";
+            nudNumRounds.Size = new Size(234, 23);
+            nudNumRounds.TabIndex = 7;
+            nudNumRounds.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 219);
+            label1.Name = "label1";
+            label1.Size = new Size(108, 15);
+            label1.TabIndex = 8;
+            label1.Text = "Number of Rounds";
+            // 
+            // radSnake
+            // 
+            radSnake.AutoSize = true;
+            radSnake.Checked = true;
+            radSnake.Location = new Point(3, 3);
+            radSnake.Name = "radSnake";
+            radSnake.Size = new Size(56, 19);
+            radSnake.TabIndex = 9;
+            radSnake.TabStop = true;
+            radSnake.Text = "Snake";
+            radSnake.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(radLinear);
+            panel1.Controls.Add(radSnake);
+            panel1.Location = new Point(129, 246);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(112, 50);
+            panel1.TabIndex = 10;
+            // 
+            // radLinear
+            // 
+            radLinear.AutoSize = true;
+            radLinear.Location = new Point(3, 28);
+            radLinear.Name = "radLinear";
+            radLinear.Size = new Size(57, 19);
+            radLinear.TabIndex = 10;
+            radLinear.Text = "Linear";
+            radLinear.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(59, 253);
+            label2.Name = "label2";
+            label2.Size = new Size(61, 15);
+            label2.TabIndex = 11;
+            label2.Text = "Draft Style";
+            // 
             // frmDraftSetup
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            ControlBox = false;
+            ClientSize = new Size(492, 336);
+            Controls.Add(label2);
+            Controls.Add(panel1);
+            Controls.Add(label1);
+            Controls.Add(nudNumRounds);
             Controls.Add(btnAlphabetical);
             Controls.Add(btnRandomize);
             Controls.Add(btnCancel);
@@ -119,10 +187,17 @@
             Controls.Add(btnMoveDown);
             Controls.Add(bnMoveUp);
             Controls.Add(listDraftOrder);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "frmDraftSetup";
             Text = "Draft Setup";
+            ((System.ComponentModel.ISupportInitialize)nudNumRounds).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -134,5 +209,11 @@
         private Button btnCancel;
         private Button btnRandomize;
         private Button btnAlphabetical;
+        private NumericUpDown nudNumRounds;
+        private Label label1;
+        private RadioButton radSnake;
+        private Panel panel1;
+        private RadioButton radLinear;
+        private Label label2;
     }
 }

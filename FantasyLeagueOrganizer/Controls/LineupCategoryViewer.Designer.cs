@@ -1,6 +1,6 @@
 ﻿namespace FantasyLeagueOrganizer.controls
 {
-    partial class LineupCategorySelector
+    partial class LineupCategoryViewer
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,66 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            chkListAllItems = new CheckedListBox();
-            listSelected = new ListBox();
+            listAllItems = new ListBox();
             lblCategoryName = new Label();
             tbStatus = new TextBox();
             SuspendLayout();
             // 
-            // chkListAllItems
+            // listAllItems
             // 
-            chkListAllItems.CheckOnClick = true;
-            chkListAllItems.FormattingEnabled = true;
-            chkListAllItems.Location = new Point(3, 154);
-            chkListAllItems.Name = "chkListAllItems";
-            chkListAllItems.Size = new Size(251, 184);
-            chkListAllItems.TabIndex = 0;
-            chkListAllItems.ItemCheck += chkListAllItems_ItemCheck;
-            // 
-            // listSelected
-            // 
-            listSelected.FormattingEnabled = true;
-            listSelected.Location = new Point(3, 39);
-            listSelected.Name = "listSelected";
-            listSelected.Size = new Size(251, 109);
-            listSelected.TabIndex = 1;
+            listAllItems.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            listAllItems.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            listAllItems.FormattingEnabled = true;
+            listAllItems.Location = new Point(3, 38);
+            listAllItems.Name = "listAllItems";
+            listAllItems.Size = new Size(251, 151);
+            listAllItems.TabIndex = 1;
             // 
             // lblCategoryName
             // 
-            lblCategoryName.AutoSize = true;
-            lblCategoryName.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblCategoryName.Location = new Point(3, 13);
+            lblCategoryName.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblCategoryName.Location = new Point(3, 6);
             lblCategoryName.Name = "lblCategoryName";
-            lblCategoryName.Size = new Size(93, 15);
+            lblCategoryName.Size = new Size(145, 26);
             lblCategoryName.TabIndex = 2;
             lblCategoryName.Text = "Category Name";
             // 
             // tbStatus
             // 
-            tbStatus.Location = new Point(158, 10);
+            tbStatus.BackColor = Color.IndianRed;
+            tbStatus.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            tbStatus.Location = new Point(154, 3);
             tbStatus.Name = "tbStatus";
-            tbStatus.ReadOnly = true;
-            tbStatus.Size = new Size(96, 23);
+            tbStatus.Size = new Size(100, 29);
             tbStatus.TabIndex = 3;
+            tbStatus.Text = "Not Enough";
+            tbStatus.TextAlign = HorizontalAlignment.Center;
             // 
-            // LineupCategorySelector
+            // LineupCategoryViewer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tbStatus);
             Controls.Add(lblCategoryName);
-            Controls.Add(listSelected);
-            Controls.Add(chkListAllItems);
-            Name = "LineupCategorySelector";
-            Size = new Size(257, 341);
+            Controls.Add(listAllItems);
+            Name = "LineupCategoryViewer";
+            Size = new Size(257, 193);
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private CheckedListBox chkListAllItems;
-        private ListBox listSelected;
+        private ListBox listAllItems;
         private Label lblCategoryName;
         private TextBox tbStatus;
     }

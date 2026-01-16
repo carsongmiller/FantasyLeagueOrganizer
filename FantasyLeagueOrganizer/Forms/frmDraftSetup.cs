@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FantasyLeagueOrganizer.DatabseClasses;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -53,16 +55,24 @@ namespace FantasyLeagueOrganizer.Forms
             for (int i = 0; i < listDraftOrder.Items.Count; i++)
             {
                 var team = (Team)listDraftOrder.Items[i];
-                team.DraftPosition = i + 1;
+                team.DraftPosition = i;
+                DatabaseHelpers.Update(team);
 			}
 
-            //save the changes to the db
-            using var context = new LeagueDbContext();
-            context.Update(League);
-            context.SaveChanges();
+            League.DraftRoundCount = (int)nudNumRounds.Value;
+            if (radSnake.Checked)
+            {
+                League.DraftStyle = League.DraftOrderStyle.Snake;
+            }
+            else
+            {
+                League.DraftStyle = League.DraftOrderStyle.Linear;
+            }
 
-            //Open the draft form
-            var draftForm = new frmDraft(League);
+            DatabaseHelpers.Update(League);
+
+			//Open the draft form
+			var draftForm = new frmDraft(League);
             draftForm.ShowDialog();
             Close(); //Close once the draft form is closed
 		}

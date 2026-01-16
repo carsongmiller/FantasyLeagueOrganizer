@@ -78,7 +78,7 @@ namespace FantasyLeagueOrganizer.Forms
             var Burrito = new Item("Burrito", categoryMain, League);
             var Hot_Dog = new Item("Hot Dog", categoryMain, League);
             var BBQ_Ribs = new Item("BBQ Ribs", categoryMain, League);
-            var Pulled_Pork = new Item("Pulled_ Pork", categoryMain, League);
+            var Pulled_Pork = new Item("Pulled Pork", categoryMain, League);
             var Chicken_Alfredo = new Item("Chicken Alfredo", categoryMain, League);
             var Stir_Fry = new Item("Stir Fry", categoryMain, League);
             var Curry = new Item("Curry", categoryMain, League);
@@ -206,19 +206,23 @@ namespace FantasyLeagueOrganizer.Forms
                 newTeam.Color = Color.FromArgb(rand.Next(256), rand.Next(256), rand.Next(256));
             }
 
-            //randomly assign enough items for a valid lineup to each team
-            foreach (var team in League.Teams)
+            if (cbFillLineups.Checked)
             {
-                foreach (var category in League.Categories)
-                {
-                    for (int i = 0; i < category.RequiredCount; i++)
-                    {
-                        var nextItem = category.FreeAgents.First();
-                        nextItem.AddToTeam(team);
-                        nextItem.AddToLineup(category);
-                    }
-                }
-            }
+				//randomly assign enough items for a valid lineup to each team
+				foreach (var team in League.Teams)
+				{
+					foreach (var category in League.Categories)
+					{
+						for (int i = 0; i < category.RequiredCount; i++)
+						{
+							var nextItem = category.FreeAgents.First();
+							nextItem.AddToTeam(team);
+							nextItem.AddToLineup(category);
+						}
+					}
+				}
+			}
+            
 
             //Generate a random schedule
             League.GenerateRoundRobinSchedule();
@@ -238,23 +242,6 @@ namespace FantasyLeagueOrganizer.Forms
             context.SaveChanges();
 
 			RefreshInterface();
-        }
-
-        private void SaveChanges()
-        {
-            try
-            {
-                using var context = new LeagueDbContext();
-
-				context.Attach(League);
-				context.Entry(League).State = EntityState.Modified;
-				context.SaveChanges();
-			}
-            catch (DbUpdateException ex)
-            {
-                var root = ex.GetBaseException()?.Message ?? ex.Message;
-                MessageBox.Show($"Save failed: {root}", "Database error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void SetupInterface()
@@ -378,7 +365,7 @@ namespace FantasyLeagueOrganizer.Forms
                 //Modify Existing Item
                 var item = League.GetItem(tbNewItem.Text);
                 item.SetCategories(categories);
-				SaveChanges();
+				DatabaseHelpers.Update(item);
 			}
             
             RefreshInterface();
@@ -407,7 +394,7 @@ namespace FantasyLeagueOrganizer.Forms
                 var team = League.GetTeam(tbTeamNameCurrent.Text);
                 team.Name = tbTeamNameNew.Text;
                 team.ColorCode = tbNewTeamColor.Text;
-				SaveChanges();
+				DatabaseHelpers.Update(team);
 			}
 
 			RefreshInterface();
@@ -449,8 +436,8 @@ namespace FantasyLeagueOrganizer.Forms
 
         private void btnSaveLeague_Click(object sender, EventArgs e)
         {
-            SaveChanges();
-        }
+			DatabaseHelpers.Update(League);
+		}
 
         private void listItems_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -537,8 +524,8 @@ namespace FantasyLeagueOrganizer.Forms
         private void btnGenerateSchedule_Click(object sender, EventArgs e)
         {
             League.GenerateRoundRobinSchedule();
-            SaveChanges();
-            RefreshInterface();
+			DatabaseHelpers.Update(League);
+			RefreshInterface();
         }
 
         private void btnFreeAgents_Click(object sender, EventArgs e)

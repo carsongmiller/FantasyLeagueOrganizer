@@ -29,7 +29,7 @@ namespace FantasyLeagueOrganizer
 		public Guid LeagueId { get; set; }
 
 		/// <summary>
-		/// First position = 1
+		/// First position = 0
 		/// </summary>
 		public int DraftPosition { get; set; } = int.MaxValue;
 

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer.controls
 {
-    public partial class LineupCategorySelector : UserControl
+    public partial class LineupCategoryEdidtor : UserControl
     {
         public Team Team;
         public Category Category;
@@ -32,7 +32,7 @@ namespace FantasyLeagueOrganizer.controls
 			}
 		}
 
-		public LineupCategorySelector(Team team, Category category)
+		public LineupCategoryEdidtor(Team team, Category category)
         {
             InitializeComponent();
 

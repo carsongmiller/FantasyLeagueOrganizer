@@ -12,7 +12,6 @@ namespace FantasyLeagueOrganizer
 	{
 		public string Name { get; set; }
 		public Guid Id { get; set; }
-
 		public string DisplayNameItemSingular { get; set; } = "Item";
 		public string DisplayNameItemPlural { get; set; } = "Items";
 		public string DisplayNameCategorySingular { get; set; } = "Category";
@@ -22,6 +21,15 @@ namespace FantasyLeagueOrganizer
 		public int WinPointValue { get; set; } = 3;
 		public int LossPointValue { get; set; } = 0;
 		public int TiePointValue { get; set; } = 1;
+
+		public DraftOrderStyle DraftStyle { get; set; } = DraftOrderStyle.Snake;
+		public enum DraftOrderStyle
+		{
+			Snake,
+			Linear
+		}
+		public int DraftRoundCount { get; set; } = 1;
+
 
 		/// <summary>
 		/// All teams in the league

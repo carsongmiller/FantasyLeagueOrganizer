@@ -22,19 +22,19 @@ namespace FantasyLeagueOrganizer.controls
 
             foreach (var category in team.League.Categories)
             {
-                var newLineupCategorySelector = new LineupCategorySelector(team, category);
+                var newLineupCategorySelector = new LineupCategoryEdidtor(team, category);
                 flowLayoutPanel1.Controls.Add(newLineupCategorySelector);
 			}
 
-            foreach (LineupCategorySelector control in flowLayoutPanel1.Controls)
+            foreach (LineupCategoryEdidtor control in flowLayoutPanel1.Controls)
             {
                 control.ItemCheckedChanged += Control_ItemCheckedChanged;
 			}
         }
 
-        private void Control_ItemCheckedChanged(object? sender, LineupCategorySelector.ItemCheckedChangedEventArgs e)
+        private void Control_ItemCheckedChanged(object? sender, LineupCategoryEdidtor.ItemCheckedChangedEventArgs e)
         {
-            foreach (LineupCategorySelector control in flowLayoutPanel1.Controls)
+            foreach (LineupCategoryEdidtor control in flowLayoutPanel1.Controls)
             {
                 if (e.CategoryOld == control.Category.Id)
                 {
@@ -46,7 +46,7 @@ namespace FantasyLeagueOrganizer.controls
 
         public void UpdateAllCategories()
         {
-            foreach (LineupCategorySelector control in flowLayoutPanel1.Controls)
+            foreach (LineupCategoryEdidtor control in flowLayoutPanel1.Controls)
             {
                 control.Setup();
 			}

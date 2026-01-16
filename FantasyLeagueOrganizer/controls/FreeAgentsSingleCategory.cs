@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using static FantasyLeagueOrganizer.controls.LineupCategorySelector;
+using static FantasyLeagueOrganizer.controls.LineupCategoryEdidtor;
 
 namespace FantasyLeagueOrganizer.controls
 {
@@ -28,7 +28,7 @@ namespace FantasyLeagueOrganizer.controls
         public void Update()
         {
             listFreeAgents.Items.Clear();
-            listFreeAgents.Items.AddRange(Category.FreeAgents.ToArray());
+            listFreeAgents.Items.AddRange(Category.FreeAgents.OrderBy(i => i.Name).ToArray());
         }
 
         public void Deselect()

@@ -80,6 +80,7 @@
             tabPage3 = new TabPage();
             btnGenerateRankingProvider = new Button();
             colorDialog1 = new ColorDialog();
+            cbFillLineups = new CheckBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudNumTeams).BeginInit();
@@ -136,6 +137,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(cbFillLineups);
             tabPage1.Controls.Add(nudNumTeams);
             tabPage1.Controls.Add(btnFreeAgents);
             tabPage1.Controls.Add(leagueSummary1);
@@ -612,17 +614,28 @@
             btnGenerateRankingProvider.UseVisualStyleBackColor = true;
             btnGenerateRankingProvider.Click += btnGenerateRankingProvider_Click;
             // 
-            // frmMain
+            // cbFillLineups
+            // 
+            cbFillLineups.AutoSize = true;
+            cbFillLineups.Location = new Point(979, 9);
+            cbFillLineups.Name = "cbFillLineups";
+            cbFillLineups.Size = new Size(85, 19);
+            cbFillLineups.TabIndex = 16;
+            cbFillLineups.Text = "Fill Lineups";
+            cbFillLineups.UseVisualStyleBackColor = true;
+            // 
+            // frmAdmin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1356, 676);
             Controls.Add(tabControl1);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "frmMain";
+            Name = "frmAdmin";
             Text = "Admin";
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudNumTeams).EndInit();
             grpTeams.ResumeLayout(false);
             grpTeams.PerformLayout();
@@ -691,5 +704,6 @@
         private ListBox listRankingProviders;
         private Button btnAssignRankingProvider;
         private NumericUpDown nudNumTeams;
+        private CheckBox cbFillLineups;
     }
 }

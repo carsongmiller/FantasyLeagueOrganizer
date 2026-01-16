@@ -11,10 +11,20 @@ namespace FantasyLeagueOrganizer.controls
     public partial class FreeAgentsLarge : UserControl
     {
         public League League;
-        public FreeAgentsLarge()
+        public event EventHandler<SelectedItemChangedEventArgs> SelectedItemChanged;
+		public FreeAgentsLarge()
         {
             InitializeComponent();
         }
+
+        public class SelectedItemChangedEventArgs : EventArgs
+        {
+            public Item Item { get; }
+            public SelectedItemChangedEventArgs(Item item)
+            {
+                Item = item;
+			}
+		}
 
 		/// <summary>
 		/// Returns the currently selected free agent item, or null if no item is selected. Only one item can be selected at a time across all categories.
@@ -55,6 +65,11 @@ namespace FantasyLeagueOrganizer.controls
 				{
                     control.Deselect();
 				}
+			}
+
+            if (SelectedItem != null)
+            {
+				SelectedItemChanged?.Invoke(this, new SelectedItemChangedEventArgs(SelectedItem));
 			}
 		}
 

@@ -17,4 +17,13 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Controls\LineupCategoryViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\LineupViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
