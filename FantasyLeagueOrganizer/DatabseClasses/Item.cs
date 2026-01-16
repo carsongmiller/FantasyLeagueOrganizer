@@ -120,10 +120,6 @@ namespace FantasyLeagueOrganizer
 		public void AddCategories(IEnumerable<Category> categories)
 		{
 			_categories.UnionWith(categories);
-			//foreach (var category in categories)
-			//{
-			//	category.AddItem(this);
-			//}
 		}
 
 		public void AddCategory(Category category)

@@ -245,9 +245,11 @@ namespace FantasyLeagueOrganizer.Forms
             try
             {
                 using var context = new LeagueDbContext();
-                context.Update(League);
-                context.SaveChanges();
-            }
+
+				context.Attach(League);
+				context.Entry(League).State = EntityState.Modified;
+				context.SaveChanges();
+			}
             catch (DbUpdateException ex)
             {
                 var root = ex.GetBaseException()?.Message ?? ex.Message;
