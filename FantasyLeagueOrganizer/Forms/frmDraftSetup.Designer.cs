@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDraftSetup));
-            listDraftOrder = new ListBox();
             bnMoveUp = new Button();
             btnMoveDown = new Button();
             btnProceed = new Button();
@@ -42,17 +41,10 @@
             panel1 = new Panel();
             radLinear = new RadioButton();
             label2 = new Label();
+            listDraftOrder = new FantasyLeagueOrganizer.Controls.listBoxTeams();
             ((System.ComponentModel.ISupportInitialize)nudNumRounds).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // listDraftOrder
-            // 
-            listDraftOrder.FormattingEnabled = true;
-            listDraftOrder.Location = new Point(129, 12);
-            listDraftOrder.Name = "listDraftOrder";
-            listDraftOrder.Size = new Size(234, 199);
-            listDraftOrder.TabIndex = 0;
             // 
             // bnMoveUp
             // 
@@ -171,11 +163,21 @@
             label2.TabIndex = 11;
             label2.Text = "Draft Style";
             // 
+            // listDraftOrder
+            // 
+            listDraftOrder.DrawMode = DrawMode.OwnerDrawFixed;
+            listDraftOrder.FormattingEnabled = true;
+            listDraftOrder.Location = new Point(129, 12);
+            listDraftOrder.Name = "listDraftOrder";
+            listDraftOrder.Size = new Size(234, 196);
+            listDraftOrder.TabIndex = 12;
+            // 
             // frmDraftSetup
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(492, 336);
+            Controls.Add(listDraftOrder);
             Controls.Add(label2);
             Controls.Add(panel1);
             Controls.Add(label1);
@@ -186,7 +188,6 @@
             Controls.Add(btnProceed);
             Controls.Add(btnMoveDown);
             Controls.Add(bnMoveUp);
-            Controls.Add(listDraftOrder);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
@@ -201,8 +202,6 @@
         }
 
         #endregion
-
-        private ListBox listDraftOrder;
         private Button bnMoveUp;
         private Button btnMoveDown;
         private Button btnProceed;
@@ -215,5 +214,6 @@
         private Panel panel1;
         private RadioButton radLinear;
         private Label label2;
+        private Controls.listBoxTeams listDraftOrder;
     }
 }

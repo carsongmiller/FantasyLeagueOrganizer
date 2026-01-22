@@ -21,7 +21,7 @@ namespace FantasyLeagueOrganizer.Forms
             RefreshUI();
 
             leagueSummary1.DatabaseDataChanged = ExternalDataChanged;
-		}
+        }
 
         protected override void RefreshUI()
         {
@@ -31,10 +31,10 @@ namespace FantasyLeagueOrganizer.Forms
 
         private void adminControlsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			var adminForm = new frmAdmin(Context);
+            var adminForm = new frmAdmin(Context);
             adminForm.DatabaseDataChanged = ExternalDataChanged;
-			adminForm.Show();
-		}
+            adminForm.Show();
+        }
 
         private void btnBeginDraft_Click(object sender, EventArgs e)
         {
@@ -45,11 +45,25 @@ namespace FantasyLeagueOrganizer.Forms
 
         private void reloadLeagueToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			League = DatabaseHelpers.LoadLeague(Context);
+            League = DatabaseHelpers.LoadLeague(Context);
             if (League != null)
             {
                 RefreshUI();
-			}
+            }
+        }
+
+        private void btnTrade_Click(object sender, EventArgs e)
+        {
+            var tradeSetupForm = new frmTradeSetup(Context);
+            tradeSetupForm.DatabaseDataChanged = ExternalDataChanged;
+            tradeSetupForm.ShowDialog();
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+			var playForm = new frmPlay(Context);
+			playForm.DatabaseDataChanged = ExternalDataChanged;
+			playForm.Show();
 		}
     }
 }

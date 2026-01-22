@@ -8,11 +8,23 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer.Forms
 {
-    public partial class frmRostersDashbaord : Form
+    public partial class frmPlay : frmFantasyLeagueBase
     {
-        public frmRostersDashbaord()
+        public frmPlay(LeagueDbContext context) : base(context)
         {
             InitializeComponent();
+
+            Setup();
+        }
+
+        public void Setup()
+        {
+
+        }
+
+        protected override void RefreshUI()
+        {
+            
         }
     }
 }

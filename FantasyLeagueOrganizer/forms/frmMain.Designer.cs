@@ -36,7 +36,8 @@
             adminControlsToolStripMenuItem = new ToolStripMenuItem();
             btnBeginDraft = new Button();
             leagueSummary1 = new FantasyLeagueOrganizer.controls.LeagueSummary();
-            btnLineups = new Button();
+            btnPlay = new Button();
+            btnTrade = new Button();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -45,7 +46,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, adminToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1131, 24);
+            menuStrip1.Size = new Size(1188, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -82,7 +83,7 @@
             btnBeginDraft.Font = new Font("Segoe UI", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnBeginDraft.Location = new Point(12, 27);
             btnBeginDraft.Name = "btnBeginDraft";
-            btnBeginDraft.Size = new Size(222, 123);
+            btnBeginDraft.Size = new Size(564, 123);
             btnBeginDraft.TabIndex = 1;
             btnBeginDraft.Text = "Draft";
             btnBeginDraft.UseVisualStyleBackColor = true;
@@ -91,27 +92,40 @@
             // leagueSummary1
             // 
             leagueSummary1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            leagueSummary1.Location = new Point(669, 27);
+            leagueSummary1.Location = new Point(582, 27);
             leagueSummary1.Name = "leagueSummary1";
-            leagueSummary1.Size = new Size(450, 486);
+            leagueSummary1.Size = new Size(594, 382);
             leagueSummary1.TabIndex = 2;
             // 
-            // btnLineups
+            // btnPlay
             // 
-            btnLineups.Font = new Font("Segoe UI", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnLineups.Location = new Point(240, 27);
-            btnLineups.Name = "btnLineups";
-            btnLineups.Size = new Size(222, 123);
-            btnLineups.TabIndex = 3;
-            btnLineups.Text = "Lineups";
-            btnLineups.UseVisualStyleBackColor = true;
+            btnPlay.Font = new Font("Segoe UI", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnPlay.Location = new Point(12, 285);
+            btnPlay.Name = "btnPlay";
+            btnPlay.Size = new Size(564, 123);
+            btnPlay.TabIndex = 3;
+            btnPlay.Text = "Play";
+            btnPlay.UseVisualStyleBackColor = true;
+            btnPlay.Click += btnPlay_Click;
+            // 
+            // btnTrade
+            // 
+            btnTrade.Font = new Font("Segoe UI", 36F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnTrade.Location = new Point(12, 156);
+            btnTrade.Name = "btnTrade";
+            btnTrade.Size = new Size(564, 123);
+            btnTrade.TabIndex = 4;
+            btnTrade.Text = "Trade";
+            btnTrade.UseVisualStyleBackColor = true;
+            btnTrade.Click += btnTrade_Click;
             // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1131, 525);
-            Controls.Add(btnLineups);
+            ClientSize = new Size(1188, 421);
+            Controls.Add(btnTrade);
+            Controls.Add(btnPlay);
             Controls.Add(leagueSummary1);
             Controls.Add(btnBeginDraft);
             Controls.Add(menuStrip1);
@@ -134,6 +148,7 @@
         private Button btnBeginDraft;
         private ToolStripMenuItem reloadLeagueToolStripMenuItem;
         private controls.LeagueSummary leagueSummary1;
-        private Button btnLineups;
+        private Button btnPlay;
+        private Button btnTrade;
     }
 }

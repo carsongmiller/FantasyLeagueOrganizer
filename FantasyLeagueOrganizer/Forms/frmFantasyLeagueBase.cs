@@ -26,6 +26,10 @@ namespace FantasyLeagueOrganizer.Forms
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// Stores the provided context and uses it to load the league
+		/// </summary>
+		/// <param name="context"></param>
 		public frmFantasyLeagueBase(LeagueDbContext context) : this()
         {
             Context = context;

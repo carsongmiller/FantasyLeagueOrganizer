@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
@@ -27,6 +28,8 @@ namespace FantasyLeagueOrganizer
 
 		public League League { get; set; }
 		public Guid LeagueId { get; set; }
+
+		public string Password { get; set; } = "password";
 
 		/// <summary>
 		/// First position = 0

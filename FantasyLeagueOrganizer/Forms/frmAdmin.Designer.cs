@@ -34,6 +34,7 @@
             btnLoadLeague = new Button();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            cbFillLineups = new CheckBox();
             nudNumTeams = new NumericUpDown();
             btnFreeAgents = new Button();
             leagueSummary1 = new FantasyLeagueOrganizer.controls.LeagueSummary();
@@ -51,7 +52,6 @@
             label2 = new Label();
             btnAddOrUpdateTeam = new Button();
             tbTeamNameNew = new TextBox();
-            listTeams = new ListBox();
             btnRefreshInterface = new Button();
             grpCategories = new GroupBox();
             nudRequiredCount = new NumericUpDown();
@@ -80,7 +80,7 @@
             tabPage3 = new TabPage();
             btnGenerateRankingProvider = new Button();
             colorDialog1 = new ColorDialog();
-            cbFillLineups = new CheckBox();
+            listTeams = new FantasyLeagueOrganizer.Controls.listBoxTeams();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudNumTeams).BeginInit();
@@ -156,6 +156,16 @@
             tabPage1.Text = "Setup";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // cbFillLineups
+            // 
+            cbFillLineups.AutoSize = true;
+            cbFillLineups.Location = new Point(979, 9);
+            cbFillLineups.Name = "cbFillLineups";
+            cbFillLineups.Size = new Size(85, 19);
+            cbFillLineups.TabIndex = 16;
+            cbFillLineups.Text = "Fill Lineups";
+            cbFillLineups.UseVisualStyleBackColor = true;
+            // 
             // nudNumTeams
             // 
             nudNumTeams.Location = new Point(1070, 6);
@@ -195,6 +205,7 @@
             // grpTeams
             // 
             grpTeams.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            grpTeams.Controls.Add(listTeams);
             grpTeams.Controls.Add(btnDeleteTeam);
             grpTeams.Controls.Add(btnModifyLineup);
             grpTeams.Controls.Add(label5);
@@ -207,7 +218,6 @@
             grpTeams.Controls.Add(label2);
             grpTeams.Controls.Add(btnAddOrUpdateTeam);
             grpTeams.Controls.Add(tbTeamNameNew);
-            grpTeams.Controls.Add(listTeams);
             grpTeams.Location = new Point(441, 64);
             grpTeams.Name = "grpTeams";
             grpTeams.Size = new Size(474, 578);
@@ -328,15 +338,6 @@
             tbTeamNameNew.Name = "tbTeamNameNew";
             tbTeamNameNew.Size = new Size(154, 23);
             tbTeamNameNew.TabIndex = 7;
-            // 
-            // listTeams
-            // 
-            listTeams.FormattingEnabled = true;
-            listTeams.Location = new Point(6, 22);
-            listTeams.Name = "listTeams";
-            listTeams.Size = new Size(197, 229);
-            listTeams.TabIndex = 6;
-            listTeams.SelectedIndexChanged += listTeams_SelectedIndexChanged;
             // 
             // btnRefreshInterface
             // 
@@ -614,15 +615,14 @@
             btnGenerateRankingProvider.UseVisualStyleBackColor = true;
             btnGenerateRankingProvider.Click += btnGenerateRankingProvider_Click;
             // 
-            // cbFillLineups
+            // listTeams
             // 
-            cbFillLineups.AutoSize = true;
-            cbFillLineups.Location = new Point(979, 9);
-            cbFillLineups.Name = "cbFillLineups";
-            cbFillLineups.Size = new Size(85, 19);
-            cbFillLineups.TabIndex = 16;
-            cbFillLineups.Text = "Fill Lineups";
-            cbFillLineups.UseVisualStyleBackColor = true;
+            listTeams.DrawMode = DrawMode.OwnerDrawFixed;
+            listTeams.FormattingEnabled = true;
+            listTeams.Location = new Point(6, 22);
+            listTeams.Name = "listTeams";
+            listTeams.Size = new Size(197, 228);
+            listTeams.TabIndex = 23;
             // 
             // frmAdmin
             // 
@@ -673,7 +673,6 @@
 		private GroupBox grpTeams;
 		private Button btnAddOrUpdateTeam;
 		private TextBox tbTeamNameNew;
-		private ListBox listTeams;
 		private Button btnSelectTeamColor;
 		private Label label3;
 		private TextBox tbNewTeamColor;
@@ -705,5 +704,6 @@
         private Button btnAssignRankingProvider;
         private NumericUpDown nudNumTeams;
         private CheckBox cbFillLineups;
+        private Controls.listBoxTeams listTeams;
     }
 }
