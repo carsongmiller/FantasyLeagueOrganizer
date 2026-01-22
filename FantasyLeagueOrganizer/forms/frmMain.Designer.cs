@@ -38,6 +38,7 @@
             leagueSummary1 = new FantasyLeagueOrganizer.controls.LeagueSummary();
             btnPlay = new Button();
             btnTrade = new Button();
+            ctrlBracket1 = new FantasyLeagueOrganizer.Controls.ctrlBracket();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -46,7 +47,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, adminToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1188, 24);
+            menuStrip1.Size = new Size(1327, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -92,9 +93,9 @@
             // leagueSummary1
             // 
             leagueSummary1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            leagueSummary1.Location = new Point(582, 27);
+            leagueSummary1.Location = new Point(721, 27);
             leagueSummary1.Name = "leagueSummary1";
-            leagueSummary1.Size = new Size(594, 382);
+            leagueSummary1.Size = new Size(594, 723);
             leagueSummary1.TabIndex = 2;
             // 
             // btnPlay
@@ -119,11 +120,23 @@
             btnTrade.UseVisualStyleBackColor = true;
             btnTrade.Click += btnTrade_Click;
             // 
+            // ctrlBracket1
+            // 
+            ctrlBracket1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ctrlBracket1.LineColor = Color.Black;
+            ctrlBracket1.LineWidth = 5F;
+            ctrlBracket1.Location = new Point(12, 27);
+            ctrlBracket1.Name = "ctrlBracket1";
+            ctrlBracket1.Size = new Size(875, 381);
+            ctrlBracket1.TabIndex = 5;
+            ctrlBracket1.TextMargins = new Padding(3);
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1188, 421);
+            ClientSize = new Size(1327, 762);
+            Controls.Add(ctrlBracket1);
             Controls.Add(btnTrade);
             Controls.Add(btnPlay);
             Controls.Add(leagueSummary1);
@@ -150,5 +163,6 @@
         private controls.LeagueSummary leagueSummary1;
         private Button btnPlay;
         private Button btnTrade;
+        private Controls.ctrlBracket ctrlBracket1;
     }
 }

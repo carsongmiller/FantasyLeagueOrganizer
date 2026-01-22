@@ -63,7 +63,7 @@ namespace FantasyLeagueOrganizer
 		}
 
 		/// <summary>
-		/// The team's record, in the form of "W:L:T"
+		/// The team's record, in the form of "W - L - T"
 		/// </summary>
 		[NotMapped]
 		public string RecordString => $"{Wins} - {Losses} - {Ties}";
