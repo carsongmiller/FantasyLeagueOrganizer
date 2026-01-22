@@ -6,28 +6,27 @@ using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
 using Microsoft.Extensions.Options;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace FantasyLeagueOrganizer.Forms
 {
-    public partial class frmAdmin : Form
+    public partial class frmAdmin : frmFantasyLeagueBase
     {
-        League League;
-
-        public frmAdmin(League league)
+        public frmAdmin(LeagueDbContext context) : base(context)
         {
             InitializeComponent();
 
-            League = league;
-
             SetupInterface();
-            if (league != null)
-            {
-                RefreshInterface();
-            }
-        }
+
+			if (League != null)
+			{
+				RefreshUI();
+			}
+		}
 
         private void btnRecreateLeague_Click(object sender, EventArgs e)
         {
@@ -232,6 +231,8 @@ namespace FantasyLeagueOrganizer.Forms
             for (int week = 0; week < numWeeks; week++)
             {
                 var rp = GenerateRandomRankingProvider(0, 10);
+                League.RankingProviders.Add(rp);
+
                 foreach (var matchup in League.GetMatchups(week))
                 {
                     matchup.RankingProvider = rp;
@@ -240,8 +241,9 @@ namespace FantasyLeagueOrganizer.Forms
 
             context.Leagues.Add(League);
             context.SaveChanges();
+            DatabaseDataChanged.Invoke();
 
-			RefreshInterface();
+			RefreshUI();
         }
 
         private void SetupInterface()
@@ -253,17 +255,20 @@ namespace FantasyLeagueOrganizer.Forms
             listRoster.DisplayMember = nameof(Item.Name);
             listWeeks.DisplayMember = nameof(Matchup.ToString);
             listRankingProviders.DisplayMember = nameof(RankingProvider.Name);
+
+            leagueSummary1.Context = Context;
+            leagueSummary2.Context = Context;
         }
 
-        private void RefreshInterface()
+        protected override void RefreshUI()
         {
             RefreshCategoryControls();
             RefreshItemControls();
             RefreshTeamControls();
             RefreshMatchupControls();
 
-            leagueSummary1.Update();
-            leagueSummary2.Update();
+            leagueSummary1.RefreshUI();
+            leagueSummary2.RefreshUI();
         }
 
         private void RefreshCategoryControls()
@@ -305,8 +310,8 @@ namespace FantasyLeagueOrganizer.Forms
                 listTeams.Items.Add(team);
             }
 
-            leagueSummary1.SetLeague(League);
-            leagueSummary2.SetLeague(League);
+            leagueSummary1.Setup(Context);
+            leagueSummary2.Setup(Context);
 		}
 
         private void RefreshMatchupControls()
@@ -327,20 +332,28 @@ namespace FantasyLeagueOrganizer.Forms
 
         private void btnLoadLeague_Click(object sender, EventArgs e)
         {
-            League = DatabaseHelpers.LoadLeague();
-            RefreshInterface();
+            League = DatabaseHelpers.LoadLeague(Context);
+            RefreshUI();
         }
 
-        private void btnAddCategoryToLeague_Click(object sender, EventArgs e)
+		private void LoadLeagueFromDb()
+		{
+			League = DatabaseHelpers.LoadLeague(Context);
+			if (League != null)
+			{
+				RefreshUI();
+			}
+		}
+
+		private void btnAddCategoryToLeague_Click(object sender, EventArgs e)
         {
             var newCategory = new Category(tbNewCategory.Text, (int)nudRequiredCount.Value, League);
 
-			using var context = new LeagueDbContext();
-			context.Leagues.Attach(League);
-			context.Categories.Add(newCategory);
-			context.SaveChanges();
+			Context.Categories.Add(newCategory);
+			Context.SaveChanges();
+			DatabaseDataChanged.Invoke();
 
-            RefreshInterface();
+			RefreshUI();
         }
 
         private void btnAddItemToLeague_Click(object sender, EventArgs e)
@@ -355,25 +368,24 @@ namespace FantasyLeagueOrganizer.Forms
             {
                 //Create new Item
                 var newItem = new Item(tbNewItem.Text, categories, League);
-				using var context = new LeagueDbContext();
-				context.Leagues.Attach(League);
-				context.Items.Add(newItem);
-				context.SaveChanges();
+				Context.Items.Add(newItem);
 			}
             else
             {
                 //Modify Existing Item
                 var item = League.GetItem(tbNewItem.Text);
                 item.SetCategories(categories);
-				DatabaseHelpers.Update(item);
 			}
-            
-            RefreshInterface();
+
+			Context.SaveChanges();
+			DatabaseDataChanged.Invoke();
+
+			RefreshUI();
         }
 
         private void btnRefreshInterface_Click(object sender, EventArgs e)
         {
-            RefreshInterface();
+            RefreshUI();
         }
 
         private void btnAddTeamToLeague_Click(object sender, EventArgs e)
@@ -382,11 +394,9 @@ namespace FantasyLeagueOrganizer.Forms
             {
                 //new team being created
                 var newTeam = new Team(tbTeamNameNew.Text, League);
-                newTeam.ColorCode = tbNewTeamColor.Text;
-				using var context = new LeagueDbContext();
-                context.Leagues.Attach(League);
-				context.Teams.Add(newTeam);
-                context.SaveChanges();
+                newTeam.Color = colorDialog1.Color;
+
+				Context.Teams.Add(newTeam);
 			}
             else
             {
@@ -394,10 +404,12 @@ namespace FantasyLeagueOrganizer.Forms
                 var team = League.GetTeam(tbTeamNameCurrent.Text);
                 team.Name = tbTeamNameNew.Text;
                 team.ColorCode = tbNewTeamColor.Text;
-				DatabaseHelpers.Update(team);
 			}
 
-			RefreshInterface();
+            Context.SaveChanges();
+			DatabaseDataChanged.Invoke();
+
+			RefreshUI();
         }
 
         private void btnSelectTeamColor_Click(object sender, EventArgs e)
@@ -436,10 +448,11 @@ namespace FantasyLeagueOrganizer.Forms
 
         private void btnSaveLeague_Click(object sender, EventArgs e)
         {
-			DatabaseHelpers.Update(League);
+            Context.SaveChanges();
+			DatabaseDataChanged.Invoke();
 		}
 
-        private void listItems_SelectedIndexChanged(object sender, EventArgs e)
+		private void listItems_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedItem = (Item)listItems.SelectedItem;
             tbNewItem.Text = selectedItem.Name;
@@ -476,8 +489,9 @@ namespace FantasyLeagueOrganizer.Forms
 			context.Leagues.Attach(League);
 			context.Items.Remove(selectedItem);
 			context.SaveChanges();
+			DatabaseDataChanged.Invoke();
 
-			RefreshInterface();
+			RefreshUI();
         }
 
         private void btnDeleteCategory_Click(object sender, EventArgs e)
@@ -500,13 +514,11 @@ namespace FantasyLeagueOrganizer.Forms
                 return;
             }
 
-			League.RemoveCategory(selectedCategory);
-			using var context = new LeagueDbContext();
-			context.Leagues.Attach(League);
-			context.Categories.Remove(selectedCategory);
-			context.SaveChanges();
+            Context.Remove(selectedCategory);
+            Context.SaveChanges();
+			DatabaseDataChanged.Invoke();
 
-			RefreshInterface();
+			RefreshUI();
         }
 
         private void btnModifyLineup_Click(object sender, EventArgs e)
@@ -517,20 +529,24 @@ namespace FantasyLeagueOrganizer.Forms
                 return;
             }
 
-            frmModifyLineup modifyLineupForm = new frmModifyLineup((Team)listTeams.SelectedItem);
-            modifyLineupForm.ShowDialog();
+            frmModifyLineup setLineupForm = new frmModifyLineup(Context, (Team)listTeams.SelectedItem);
+            setLineupForm.DatabaseDataChanged = ExternalDataChanged;
+            setLineupForm.ShowDialog();
+            ExternalDataChanged();
         }
 
         private void btnGenerateSchedule_Click(object sender, EventArgs e)
         {
             League.GenerateRoundRobinSchedule();
-			DatabaseHelpers.Update(League);
-			RefreshInterface();
+            Context.SaveChanges();
+			DatabaseDataChanged.Invoke();
+
+			RefreshUI();
         }
 
         private void btnFreeAgents_Click(object sender, EventArgs e)
         {
-            var freeAgents = new frmFreeAgents(League);
+            var freeAgents = new frmFreeAgents(Context);
             freeAgents.ShowDialog();
         }
 
@@ -551,13 +567,12 @@ namespace FantasyLeagueOrganizer.Forms
                 return;
             }
 
-            League.RemoveTeam(selectedTeam);
-            using var context = new LeagueDbContext();
-            context.Leagues.Attach(League);
-            context.Teams.Remove(selectedTeam);
-            context.SaveChanges();
-            
-            RefreshInterface();
+            //League.RemoveTeam(selectedTeam);
+            Context.Remove(selectedTeam);
+            Context.SaveChanges();
+			DatabaseDataChanged.Invoke();
+
+			RefreshUI();
         }
 
         private void btnGenerateRankingProvider_Click(object sender, EventArgs e)
@@ -568,12 +583,13 @@ namespace FantasyLeagueOrganizer.Forms
 			context.Leagues.Attach(League);
 			context.RankingProviders.Add(newRP);
 			context.SaveChanges();
+			DatabaseDataChanged.Invoke();
 		}
 
-        /// <summary>
-        /// Generates a ranking provider and adds it to the league
-        /// </summary>
-        private RankingProvider GenerateRandomRankingProvider(int scoreMin, int scoreMax)
+		/// <summary>
+		/// Generates a ranking provider and adds it to the league
+		/// </summary>
+		private RankingProvider GenerateRandomRankingProvider(int scoreMin, int scoreMax)
         {
             //First generate a ranking for each item in the league, with random values
             var rankings = new List<ItemRanking>();
@@ -583,7 +599,7 @@ namespace FantasyLeagueOrganizer.Forms
                 rankings.Add(new ItemRanking(item, random.Next(scoreMin, scoreMax)));
             }
 
-			return new RankingProvider($"New Provider {League.RankingProviders.Count + 1}", rankings, League);
+			return new RankingProvider($"New Provider {League.RankingProviders.Count + 1}", rankings);
         }
 
         private void listWeeks_SelectedIndexChanged(object sender, EventArgs e)
@@ -596,11 +612,12 @@ namespace FantasyLeagueOrganizer.Forms
             flowMatchups.Controls.Clear();
 
             //Get the currently selected week in the list
-            var week = int.Parse(((string)listWeeks.SelectedItem).Substring(5));
+            var week = int.Parse(((string)listWeeks.SelectedItem).Substring(5)) - 1;
 
             foreach (var matchup in League.GetMatchups(week))
             {
-                var newMatchupControl = new MatchupSmall(matchup);
+                var newMatchupControl = new MatchupSmall(Context, matchup);
+                newMatchupControl.DatabaseDataChanged = ExternalDataChanged;
                 newMatchupControl.Width = flowMatchups.Width - newMatchupControl.Margin.Horizontal;
                 flowMatchups.Controls.Add(newMatchupControl);
             }

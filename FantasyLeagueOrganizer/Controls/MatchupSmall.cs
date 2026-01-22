@@ -12,26 +12,33 @@ namespace FantasyLeagueOrganizer.controls
     public partial class MatchupSmall : UserControl
     {
         public Matchup Matchup;
+        private LeagueDbContext Context;
 
-        private int CenterRegionWidth = 100;
-        public MatchupSmall(Matchup matchup)
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Action DatabaseDataChanged { get; set; }
+
+		private int CenterRegionWidth = 100;
+        public MatchupSmall(LeagueDbContext context, Matchup matchup)
         {
             InitializeComponent();
+
+            Context = context;
 
             Matchup = matchup;
             if (matchup.IsBye)
             {
                 btnPlay.Enabled = false;
 			}
-            Update();
+            RefreshUI();
         }
 
-        public void Update()
+        public void RefreshUI()
         {
             tbTeamA.BackColor = Matchup.TeamA.Color;
             tbTeamA.Text = Matchup.TeamA.Name;
             lblTeamARecord.Text = Matchup.TeamA.RecordString;
-            lblWeek.Text = $"Week {Matchup.Week}";
+            lblWeek.Text = $"Week {Matchup.Week + 1}";
 
             if (Matchup.IsBye)
             {
@@ -100,9 +107,34 @@ namespace FantasyLeagueOrganizer.controls
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
-            var playForm = new frmPlayMatchup(Matchup);
+            if (!Matchup.TeamA.LineupIsValid)
+            {
+                MessageBox.Show($"{Matchup.TeamA.Name}'s lineup is not set", "Lineup not set", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+			if (!Matchup.TeamB.LineupIsValid)
+			{
+				MessageBox.Show($"{Matchup.TeamB.Name}'s lineup is not set", "Lineup not set", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
+			var playForm = new frmPlayMatchup(Context, Matchup);
+            playForm.DatabaseDataChanged = ExternalDataChanged;
             playForm.ShowDialog();
-            Update();
+            RefreshUI();
 		}
+
+        private void ExternalDataChanged()
+        {
+            //Reload the matchup from the DB
+            Matchup = Context.Leagues.Single().Matchups.Where(m => m.Id == Matchup.Id).Single();
+            if (Matchup != null)
+            {
+                RefreshUI();
+            }
+
+            DatabaseDataChanged.Invoke();
+        }
     }
 }

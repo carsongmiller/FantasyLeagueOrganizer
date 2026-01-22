@@ -34,29 +34,24 @@ namespace FantasyLeagueOrganizer
 		/// <summary>
 		/// All teams in the league
 		/// </summary>
-		public IReadOnlyCollection<Team> Teams => _teams;
-		private readonly List<Team> _teams = new();
+		public List<Team> Teams { get; set; } = new();
 
 		/// <summary>
 		/// All items in the league, including ones not assigned to teams
 		/// </summary>
-		public IReadOnlyCollection<Item> Items => _items;
-		private readonly HashSet<Item> _items = new();
+		public HashSet<Item> Items { get; set; } = new();
 
 		/// <summary>
 		/// List of all categories to which an item can belong
 		/// </summary>
-		public IReadOnlyCollection<Category> Categories => _categories;
-		private readonly List<Category> _categories = new();
+		public List<Category> Categories { get; set; } = new();
 
-		public IReadOnlyCollection<Matchup> Matchups => _matchups;
-		private readonly List<Matchup> _matchups = new();
+		public List<Matchup> Matchups { get; set; } = new();
 
-		public IReadOnlyCollection<RankingProvider> RankingProviders => _rankingProviders;
-		private readonly List<RankingProvider> _rankingProviders = new();
+		public List<RankingProvider> RankingProviders { get; set; } = new();
 
 		[NotMapped]
-		public List<Item> FreeAgents => _items.Where(i => i.TeamId == null).ToList();
+		public List<Item> FreeAgents => Items.Where(i => i.TeamId == null).ToList();
 
 		public League() : this("New League") { }
 
@@ -73,62 +68,62 @@ namespace FantasyLeagueOrganizer
 
 		public void AddTeam(Team team)
 		{
-			_teams.Add(team);
+			Teams.Add(team);
 		}
 
 		public void AddItem(Item item)
 		{
-			_items.Add(item);
+			Items.Add(item);
 		}
 
 		public void AddCategory(Category category)
 		{
-			_categories.Add(category);
+			Categories.Add(category);
 		}
 
 		public void AddMatchup(Matchup matchup)
 		{
-			_matchups.Add(matchup);
+			Matchups.Add(matchup);
 		}
 
 		public void AddRankingProvider(RankingProvider provider)
 		{
-			_rankingProviders.Add(provider);
+			RankingProviders.Add(provider);
 		}
 
 		public bool ContainsTeam(string name)
 		{
-			return _teams.Any(t => t.Name == name);
+			return Teams.Any(t => t.Name == name);
 		}
 
 		public bool ContainsTeam(Guid id)
 		{
-			return _teams.Any(t => t.Id == Id);
+			return Teams.Any(t => t.Id == Id);
 		}
 
 		public Team? GetTeam(string name)
 		{
-			return _teams.FirstOrDefault(t => t.Name == name);
+			return Teams.FirstOrDefault(t => t.Name == name);
 		}
 
 		public bool ContainsItemWithName(string name)
 		{
-			return _items.Any(i => i.Name == name);
+			return Items.Any(i => i.Name == name);
 		}
 
 		public bool ContainsItem(Guid id)
 		{
-			return _items.Any(i => i.Id == id);
+			return Items.Any(i => i.Id == id);
 		}
 
 		public Item? GetItem(string name)
 		{
-			return _items.FirstOrDefault(i => i.Name == name);
+			return Items.FirstOrDefault(i => i.Name == name);
 		}
 
 		public void RemoveItem(Item item)
 		{
-			if (!_items.Contains(item))
+			if (!Items.Contains(item))
 			{
 				throw new ArgumentException($"The item ({item.Name}) does not exist in this league ({Name})");
 			}
@@ -142,12 +137,12 @@ namespace FantasyLeagueOrganizer
 			//Just delete the item from our list now
 			//Since the info about what team the item is on, whether it's in a lineup, etc. it all stored within the item object,
 			//we don't need to worry about deleting it from any team
-			_items.Remove(item);
+			Items.Remove(item);
 		}
 
 		public void RemoveCategory(Category category)
 		{
-			if (!_categories.Contains(category))
+			if (!Categories.Contains(category))
 			{
 				throw new ArgumentException($"The category ({category.Name}) does not exist in this league ({Name})");
 			}
@@ -158,12 +153,12 @@ namespace FantasyLeagueOrganizer
 				item.RemoveCategory(category);
 			}
 
-			_categories.Remove(category);
+			Categories.Remove(category);
 		}
 
 		public void RemoveTeam(Team team)
 		{
-			if (!_teams.Contains(team))
+			if (!Teams.Contains(team))
 			{
 				throw new ArgumentException($"The team ({team.Name}) does not exist in this league ({Name})");
 			}
@@ -180,7 +175,7 @@ namespace FantasyLeagueOrganizer
 				item.RemoveFromTeam();
 			}
 
-			_teams.Remove(team);
+			Teams.Remove(team);
 		}
 
 		/// <summary>
@@ -190,7 +185,7 @@ namespace FantasyLeagueOrganizer
 		/// <returns></returns>
 		public List<Matchup> GetMatchups(int week)
 		{
-			return _matchups.Where(m => m.Week == week).ToList();
+			return Matchups.Where(m => m.Week == week).ToList();
 		}
 
 		/// <summary>
@@ -200,7 +195,7 @@ namespace FantasyLeagueOrganizer
 		/// <returns></returns>
 		public List<Matchup> GetMatchups(Team team)
 		{
-			return _matchups.Where(m => m.TeamIdA == team.Id || m.TeamIdB == team.Id).ToList();
+			return Matchups.Where(m => m.TeamIdA == team.Id || m.TeamIdB == team.Id).ToList();
 		}
 
 		/// <summary>
@@ -211,18 +206,18 @@ namespace FantasyLeagueOrganizer
 		/// <returns></returns>
 		public Matchup GetMatchup(Team team, int week)
 		{
-			return _matchups.Where(m => m.Week == week && (m.TeamIdA == team.Id || m.TeamIdB == team.Id)).Single();
+			return Matchups.Where(m => m.Week == week && (m.TeamIdA == team.Id || m.TeamIdB == team.Id)).Single();
 		}
 
 		public void RemoveMatchup(Matchup matchup)
 		{
-			if (!_matchups.Contains(matchup))
+			if (!Matchups.Contains(matchup))
 			{
 				throw new ArgumentException($"The matchup (id: {matchup.Id}) does not exist in this league ({Name})");
 			}
 
 			matchup.Delete();
-			_matchups.Remove(matchup);
+			Matchups.Remove(matchup);
 		}
 
 		public void GenerateRoundRobinSchedule()

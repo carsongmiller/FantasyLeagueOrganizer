@@ -31,6 +31,7 @@
             lblName = new Label();
             lblRecord = new Label();
             tbLineupStatus = new TextBox();
+            btnEditLineup = new Button();
             SuspendLayout();
             // 
             // lblName
@@ -49,7 +50,7 @@
             lblRecord.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblRecord.AutoSize = true;
             lblRecord.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblRecord.Location = new Point(209, 7);
+            lblRecord.Location = new Point(219, 7);
             lblRecord.Name = "lblRecord";
             lblRecord.Size = new Size(47, 15);
             lblRecord.TabIndex = 3;
@@ -58,21 +59,33 @@
             // tbLineupStatus
             // 
             tbLineupStatus.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            tbLineupStatus.Location = new Point(262, 4);
+            tbLineupStatus.Location = new Point(272, 4);
             tbLineupStatus.Name = "tbLineupStatus";
             tbLineupStatus.ReadOnly = true;
             tbLineupStatus.Size = new Size(116, 23);
             tbLineupStatus.TabIndex = 5;
             // 
+            // btnEditLineup
+            // 
+            btnEditLineup.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnEditLineup.Location = new Point(394, 4);
+            btnEditLineup.Name = "btnEditLineup";
+            btnEditLineup.Size = new Size(85, 23);
+            btnEditLineup.TabIndex = 6;
+            btnEditLineup.Text = "Edit Lineup";
+            btnEditLineup.UseVisualStyleBackColor = true;
+            btnEditLineup.Click += btnEditLineup_Click;
+            // 
             // TeamDisplaySmall
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(btnEditLineup);
             Controls.Add(tbLineupStatus);
             Controls.Add(lblRecord);
             Controls.Add(lblName);
             Name = "TeamDisplaySmall";
-            Size = new Size(381, 31);
+            Size = new Size(482, 31);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -87,5 +100,6 @@
         private TextBox tbRosterSpots;
 		private TextBox tbLineupSpots;
 		private TextBox tbRecord;
-	}
+        private Button btnEditLineup;
+    }
 }

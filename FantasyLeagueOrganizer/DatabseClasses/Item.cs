@@ -15,8 +15,7 @@ namespace FantasyLeagueOrganizer
 		/// <summary>
 		/// The categories to which this item belongs
 		/// </summary>
-		public IReadOnlyCollection<Category> Categories => _categories;
-		private readonly HashSet<Category> _categories = new();
+		public HashSet<Category> Categories { get; private set; } = new();
 
 		public Team? Team { get; set; }
 		public Guid? TeamId { get; set; }
@@ -119,22 +118,22 @@ namespace FantasyLeagueOrganizer
 
 		public void AddCategories(IEnumerable<Category> categories)
 		{
-			_categories.UnionWith(categories);
+			Categories.UnionWith(categories);
 		}
 
 		public void AddCategory(Category category)
 		{
-			_categories.Add(category);
+			Categories.Add(category);
 		}
 
 		public void RemoveCategory(Category category)
 		{
-			if (!_categories.Contains(category))
+			if (!Categories.Contains(category))
 			{
 				throw new ArgumentException($"The category ({category.Name}) is not in this item's ({Name}) validCategories list");
 			}
 
-			_categories.Remove(category);
+			Categories.Remove(category);
 
 			if (AssignedCategoryId == category.Id)
 			{
@@ -144,18 +143,18 @@ namespace FantasyLeagueOrganizer
 
 		public void SetCategories(IEnumerable<Category> categories)
 		{
-			_categories.Clear();
-			_categories.UnionWith(categories);
+			Categories.Clear();
+			Categories.UnionWith(categories);
 		}
 
 		public bool BelongsToCategory(Category category)
 		{
-			return _categories.Any(c => c.Id == category.Id);
+			return Categories.Any(c => c.Id == category.Id);
 		}
 
 		public bool BelongsToCategory(Guid id)
 		{
-			return _categories.Any(c => c.Id == id);
+			return Categories.Any(c => c.Id == id);
 		}
 	}
 }

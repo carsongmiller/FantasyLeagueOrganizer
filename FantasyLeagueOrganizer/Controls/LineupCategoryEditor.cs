@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FantasyLeagueOrganizer.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,15 +9,14 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer.controls
 {
-    public partial class LineupCategoryEdidtor : UserControl
+    public partial class LineupCategoryEdidtor : ctrlFantasyLeagueBase
     {
         public Team Team;
         public Category Category;
 
-		public event EventHandler<ItemCheckedChangedEventArgs>? ItemCheckedChanged;
+        public event EventHandler<ItemCheckedChangedEventArgs>? ItemCheckedChanged;
 
-
-		public sealed class ItemCheckedChangedEventArgs : EventArgs
+        public sealed class ItemCheckedChangedEventArgs : EventArgs
 		{
 			public Item Item { get; }
 			public bool IsChecked { get; }
@@ -57,10 +57,10 @@ namespace FantasyLeagueOrganizer.controls
                 chkListAllItems.Items.Add(item, item.IsInLineup && item.AssignedCategoryId == Category.Id);
             }
 
-            UpdateStatus();
+            RefreshUI();
         }
 
-        public void UpdateStatus()
+        public override void RefreshUI()
         {
 			tbStatus.Text = $"{Category.NumInLineup(Team)}/{Category.RequiredCount}";
 
@@ -88,7 +88,7 @@ namespace FantasyLeagueOrganizer.controls
 				}
 			}
 
-            UpdateStatus();
+            RefreshUI();
         }
 
         private void chkListAllItems_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -99,15 +99,17 @@ namespace FantasyLeagueOrganizer.controls
             {
                 item.AddToLineup(Category.Id);
                 listSelected.Items.Add(item);
-				ItemCheckedChanged?.Invoke(this, new ItemCheckedChangedEventArgs(item, e.NewValue == CheckState.Checked, oldCategory, item.AssignedCategoryId));
-			}
+                ItemCheckedChanged?.Invoke(this, new ItemCheckedChangedEventArgs(item, e.NewValue == CheckState.Checked, oldCategory, item.AssignedCategoryId));
+            }
             else if (item.AssignedCategoryId == Category.Id)
             {
                 item.RemoveFromLineup();
                 listSelected.Items.Remove(item);
             }
 
-            UpdateStatus();
+            DatabaseDataChanged?.Invoke();
+
+            RefreshUI();
         }
     }
 }

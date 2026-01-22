@@ -10,6 +10,7 @@ namespace FantasyLeagueOrganizer
 	/// <summary>
 	/// A ranking provider that is simply a list of rankings for a set of items.  Completely static and pre-determined.
 	/// </summary>
+	/// <remarks>Ranking providers do not belong to or contain a reference to any single league</remarks>
 	public class RankingProvider
 	{
 		public Guid Id { get; set; }
@@ -18,34 +19,26 @@ namespace FantasyLeagueOrganizer
 		public string FlavorText2 { get; set; } = "Flavor Text 2";
 		public string FlavorText3 { get; set; } = "Flavor Text 3";
 		public string FlavorText4 { get; set; } = "Flavor Text 4";
-		public League League { get; set; }
-		public Guid LeagueId { get; set; }
+		//public League League { get; set; }
+		//public Guid LeagueId { get; set; }
 
 		public IReadOnlyCollection<ItemRanking> Rankings => _rankings;
 		private readonly List<ItemRanking> _rankings = new();
 
-		[NotMapped]
-		public bool SatisfiesLeague
+		public bool SatisfiesLeague(League league)
 		{
-			get
-			{
 				var itemsRanked = Rankings.Select(r => r.Item.Id).ToHashSet();
-				var leagueItems = League.Items.Select(i => i.Id).ToHashSet();
+				var leagueItems = league.Items.Select(i => i.Id).ToHashSet();
 				return leagueItems.IsSubsetOf(itemsRanked);
-			}
 		}
 
 		public RankingProvider() { }
 
-		public RankingProvider(string name, IEnumerable<ItemRanking> rankings, League league)
+		public RankingProvider(string name, IEnumerable<ItemRanking> rankings)
 		{
 			Id = Guid.NewGuid();
 			Name = name;
-			League = league;
-			LeagueId = league.Id;
 			AddRankings(rankings);
-
-			League.AddRankingProvider(this);
 		}
 
         public override string ToString()

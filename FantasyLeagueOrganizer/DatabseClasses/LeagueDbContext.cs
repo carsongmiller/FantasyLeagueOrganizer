@@ -28,6 +28,23 @@ namespace FantasyLeagueOrganizer
 				.HasMany(i => i.Categories)
 				.WithMany(c => c.Items);
 
+			modelBuilder.Entity<Team>()
+				.HasOne(t => t.League)
+				.WithMany(l => l.Teams)
+				.HasForeignKey(t => t.LeagueId)
+				.IsRequired()
+				.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<Item>()
+				.HasOne(i => i.Team)
+				.WithMany()
+				.HasForeignKey(i => i.TeamId)
+				.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<League>()
+				.HasMany(l => l.Teams)
+				.WithOne(t => t.League);
+
 			base.OnModelCreating(modelBuilder);
 		}
 	}

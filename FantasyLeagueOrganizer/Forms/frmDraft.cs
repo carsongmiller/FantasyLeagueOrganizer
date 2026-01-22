@@ -8,14 +8,12 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer.Forms
 {
-    public partial class frmDraft : Form
+    public partial class frmDraft : frmFantasyLeagueBase
     {
-        private League League;
-
-        /// <summary>
-        /// 0 based
-        /// </summary>
-        private int currentPosition = 0;
+		/// <summary>
+		/// 0 based
+		/// </summary>
+		private int currentPosition = 0;
         private List<Team> teamsInDraftOrder = new();
 
         private Team LastDrafter => teamsInDraftOrder[currentPosition - 1];
@@ -55,13 +53,17 @@ namespace FantasyLeagueOrganizer.Forms
         private int ConfirmPickClickRequiredCount = 2;
 
 
-        public frmDraft(League league)
+        public frmDraft(LeagueDbContext context) : base(context)
         {
             InitializeComponent();
 
-            League = league;
             Setup();
-        }
+
+			if (League != null)
+			{
+				RefreshUI();
+			}
+		}
 
 		private void frmDraft_Load(object sender, EventArgs e)
 		{
@@ -91,10 +93,10 @@ namespace FantasyLeagueOrganizer.Forms
 			}
             
 
-            UpdateUI();
+            RefreshUI();
         }
 
-        private void UpdateUI()
+        protected override void RefreshUI()
         {
             tbCurrentTeam.Text = CurrentlyDrafting.Name;
             tbCurrentTeam.BackColor = CurrentlyDrafting.Color;
@@ -163,7 +165,6 @@ namespace FantasyLeagueOrganizer.Forms
                 if (ConfirmPickClickCount == 1)
                 {
                     LockInButtonConfirm();
-
                 }
                 return;
             }
@@ -174,8 +175,10 @@ namespace FantasyLeagueOrganizer.Forms
 
             item.AddToTeam(team);
 
+            Context.SaveChanges();
+			DatabaseDataChanged.Invoke();
 
-            tbLastTeam.Text = team.Name;
+			tbLastTeam.Text = team.Name;
             tbLastTeam.BackColor = team.Color;
             tbLastPick.Text = item.Name;
             tbLastPick.BackColor = team.Color;
@@ -199,10 +202,8 @@ namespace FantasyLeagueOrganizer.Forms
             }
             else
             {
-                UpdateUI();
+                RefreshUI();
             }
         }
-
-        
     }
 }

@@ -10,20 +10,39 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer.Forms
 {
-    public partial class frmDraftSetup : Form
+    public partial class frmDraftSetup : frmFantasyLeagueBase
     {
-        private League League;
-        public frmDraftSetup(League league)
+		public frmDraftSetup(LeagueDbContext context) : base(context)
         {
             InitializeComponent();
             listDraftOrder.DisplayMember = nameof(Team.Name);
 
-            League = league;
-            foreach (var team in league.Teams.OrderBy(t => t.DraftPosition))
+			if (League != null)
+			{
+				RefreshUI();
+			}
+		}
+
+        protected override void RefreshUI()
+        {
+            if (League == null) return;
+
+			foreach (var team in League.Teams.OrderBy(t => t.DraftPosition))
+			{
+				listDraftOrder.Items.Add(team);
+			}
+
+            if (League.DraftStyle == League.DraftOrderStyle.Linear)
             {
-                listDraftOrder.Items.Add(team);
+                radLinear.Checked = true;
             }
-        }
+            else if (League.DraftStyle == League.DraftOrderStyle.Snake)
+            {
+                radSnake.Checked = true;
+            }
+
+            nudNumRounds.Value = League.DraftRoundCount;
+		}
 
         private void bnMoveUp_Click(object sender, EventArgs e)
         {
@@ -56,7 +75,6 @@ namespace FantasyLeagueOrganizer.Forms
             {
                 var team = (Team)listDraftOrder.Items[i];
                 team.DraftPosition = i;
-                DatabaseHelpers.Update(team);
 			}
 
             League.DraftRoundCount = (int)nudNumRounds.Value;
@@ -69,10 +87,12 @@ namespace FantasyLeagueOrganizer.Forms
                 League.DraftStyle = League.DraftOrderStyle.Linear;
             }
 
-            DatabaseHelpers.Update(League);
+            Context.SaveChanges();
+            DatabaseDataChanged.Invoke();
 
 			//Open the draft form
-			var draftForm = new frmDraft(League);
+			var draftForm = new frmDraft(Context);
+            draftForm.DatabaseDataChanged = ExternalDataChanged;
             draftForm.ShowDialog();
             Close(); //Close once the draft form is closed
 		}

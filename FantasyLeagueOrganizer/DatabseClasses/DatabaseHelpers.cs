@@ -8,13 +8,11 @@ namespace FantasyLeagueOrganizer.DatabseClasses
 {
     public static class DatabaseHelpers
     {
-        public static League? LoadLeague()
-        {
+		public static League? LoadLeague(LeagueDbContext context)
+		{
 			League? league = null;
 			try
 			{
-				using var context = new LeagueDbContext();
-
 				league = context.Leagues
 					.AsSplitQuery()
 					.Include(l => l.Teams)
@@ -33,38 +31,6 @@ namespace FantasyLeagueOrganizer.DatabseClasses
 			}
 
 			return league;
-		}
-
-		//public static void SaveChanges(League league)
-		//{
-		//	try
-		//	{
-		//		using var context = new LeagueDbContext();
-		//		context.Leagues.Attach(league);
-		//		context.Leagues.Update(league);
-		//		context.SaveChanges();
-		//	}
-		//	catch (DbUpdateException ex)
-		//	{
-		//		var root = ex.GetBaseException()?.Message ?? ex.Message;
-		//		MessageBox.Show($"Save failed: {root}", "Database error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-		//	}
-		//}
-
-		public static void Update(object entity)
-		{
-			try
-			{
-				using var context = new LeagueDbContext();
-				context.Attach(entity);
-				context.Entry(entity).State = EntityState.Modified;
-				context.SaveChanges();
-			}
-			catch (DbUpdateException ex)
-			{
-				var root = ex.GetBaseException()?.Message ?? ex.Message;
-				MessageBox.Show($"Save failed: {root}", "Database error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
 		}
 	}
 }

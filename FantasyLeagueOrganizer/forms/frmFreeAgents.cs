@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Internal;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,17 +9,18 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer.Forms
 {
-    public partial class frmFreeAgents : Form
+    public partial class frmFreeAgents : frmFantasyLeagueBase
     {
-        public League League;
-        public frmFreeAgents(League league)
+        public frmFreeAgents(LeagueDbContext context) : base(context)
         {
             InitializeComponent();
 
             listTeams.DisplayMember = nameof(Team.Name);
 
-            League = league;
-            Setup();
+            if (League != null)
+            {
+                Setup();
+            }
         }
 
         public void Setup()

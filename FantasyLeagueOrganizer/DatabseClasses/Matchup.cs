@@ -22,7 +22,7 @@ namespace FantasyLeagueOrganizer
 		public int ScoreB { get; set; } = 0;
 
 		/// <summary>
-		/// The week of the season during which this matchup will occur
+		/// The week of the season during which this matchup will occur (0-based)
 		/// </summary>
 		public int Week { get; set; }
 

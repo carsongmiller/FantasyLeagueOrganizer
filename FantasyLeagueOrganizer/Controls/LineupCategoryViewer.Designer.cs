@@ -60,7 +60,7 @@
             tbStatus.Name = "tbStatus";
             tbStatus.Size = new Size(100, 29);
             tbStatus.TabIndex = 3;
-            tbStatus.Text = "Not Enough";
+            tbStatus.Text = "0 / 1";
             tbStatus.TextAlign = HorizontalAlignment.Center;
             // 
             // LineupCategoryViewer

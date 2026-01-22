@@ -9,40 +9,43 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer.Forms
 {
-    public partial class frmMain : Form
+    public partial class frmMain : frmFantasyLeagueBase
     {
-        private League? League;
         public frmMain()
         {
             InitializeComponent();
 
-            League = DatabaseHelpers.LoadLeague();
-            if (League != null)
-            {
-				RefreshUI();
-			}   
+            Context = new();
+            base.LoadLeagueFromDatabase();
+
+            RefreshUI();
+
+            leagueSummary1.DatabaseDataChanged = ExternalDataChanged;
 		}
 
-        public void RefreshUI()
+        protected override void RefreshUI()
         {
-            leagueSummary1.SetLeague(League);
+            if (League == null) return;
+            leagueSummary1.Setup(Context);
         }
 
         private void adminControlsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			var adminForm = new frmAdmin(League);
+			var adminForm = new frmAdmin(Context);
+            adminForm.DatabaseDataChanged = ExternalDataChanged;
 			adminForm.Show();
 		}
 
         private void btnBeginDraft_Click(object sender, EventArgs e)
         {
-            var draftSetupForm = new frmDraftSetup(League);
+            var draftSetupForm = new frmDraftSetup(Context);
+            draftSetupForm.DatabaseDataChanged = ExternalDataChanged;
             draftSetupForm.ShowDialog();
         }
 
         private void reloadLeagueToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			League = DatabaseHelpers.LoadLeague();
+			League = DatabaseHelpers.LoadLeague(Context);
             if (League != null)
             {
                 RefreshUI();

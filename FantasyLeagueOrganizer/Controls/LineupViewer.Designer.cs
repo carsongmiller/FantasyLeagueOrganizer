@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             flowLayoutPanel1 = new FlowLayoutPanel();
-            grpLineupEditor = new GroupBox();
-            grpLineupEditor.SuspendLayout();
+            grpLineupViewer = new GroupBox();
+            grpLineupViewer.SuspendLayout();
             SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -41,31 +41,31 @@
             flowLayoutPanel1.Size = new Size(873, 390);
             flowLayoutPanel1.TabIndex = 0;
             // 
-            // grpLineupEditor
+            // grpLineupViewer
             // 
-            grpLineupEditor.Controls.Add(flowLayoutPanel1);
-            grpLineupEditor.Dock = DockStyle.Fill;
-            grpLineupEditor.Location = new Point(0, 0);
-            grpLineupEditor.Name = "grpLineupEditor";
-            grpLineupEditor.Size = new Size(879, 412);
-            grpLineupEditor.TabIndex = 1;
-            grpLineupEditor.TabStop = false;
-            grpLineupEditor.Text = "Lineup Editor";
+            grpLineupViewer.Controls.Add(flowLayoutPanel1);
+            grpLineupViewer.Dock = DockStyle.Fill;
+            grpLineupViewer.Location = new Point(0, 0);
+            grpLineupViewer.Name = "grpLineupViewer";
+            grpLineupViewer.Size = new Size(879, 412);
+            grpLineupViewer.TabIndex = 1;
+            grpLineupViewer.TabStop = false;
+            grpLineupViewer.Text = "Lineup Viewer - Team Name";
             // 
-            // LineupEditor
+            // LineupViewer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(grpLineupEditor);
-            Name = "LineupEditor";
+            Controls.Add(grpLineupViewer);
+            Name = "LineupViewer";
             Size = new Size(879, 412);
-            grpLineupEditor.ResumeLayout(false);
+            grpLineupViewer.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private FlowLayoutPanel flowLayoutPanel1;
-        private GroupBox grpLineupEditor;
+        private GroupBox grpLineupViewer;
     }
 }

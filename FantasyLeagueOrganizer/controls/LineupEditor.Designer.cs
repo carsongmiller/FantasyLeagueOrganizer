@@ -50,7 +50,7 @@
             grpLineupEditor.Size = new Size(879, 412);
             grpLineupEditor.TabIndex = 1;
             grpLineupEditor.TabStop = false;
-            grpLineupEditor.Text = "Lineup Editor";
+            grpLineupEditor.Text = "Lineup Editor - Team Name";
             // 
             // LineupEditor
             // 

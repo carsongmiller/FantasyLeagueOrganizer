@@ -83,6 +83,13 @@ namespace FantasyLeagueOrganizer
 			return $"[Team] {Name}";
 		}
 
+		public void CopyFrom(Team team)
+		{
+			Color = team.Color;
+			DraftPosition = team.DraftPosition;
+			Name = team.Name;
+		}
+
 		public void SetColor(string color)
 		{
 			ColorCode = color;

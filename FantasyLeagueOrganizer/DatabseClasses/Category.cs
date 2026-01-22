@@ -22,6 +22,11 @@ namespace FantasyLeagueOrganizer
 		public League League { get; set; }
 		public Guid LeagueId { get; set; }
 
+		/// <summary>
+		/// Used whenever categories (or controls representing categories) are displayed in a list and need to be sorted
+		/// </summary>
+		public int SortIndex { get; set; } = int.MaxValue;
+
 		public int RequiredCount { get; set; } = 0;
 
 		[NotMapped]

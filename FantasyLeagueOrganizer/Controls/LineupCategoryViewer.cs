@@ -42,23 +42,15 @@ namespace FantasyLeagueOrganizer.controls
             Category = category;
             lblCategoryName.Text = category.Name;
 
-			Update();
+			RefreshUI();
         }
 
-        public void Update()
+        public void RefreshUI()
         {
             listAllItems.Items.Clear();
             listAllItems.Items.AddRange(Team.Roster.Where(i => i.Categories.Contains(Category)).OrderBy(i => i.Name).ToArray());
-            if (listAllItems.Items.Count >= Category.RequiredCount)
-            {
-                tbStatus.Text = "Has Enough";
-                tbStatus.BackColor = Color.LightGreen;
-            }
-            else
-            {
-                tbStatus.Text = "Not Enough";
-                tbStatus.BackColor = Color.IndianRed;
-            }
+            tbStatus.Text = $"{listAllItems.Items.Count} / {Category.RequiredCount}";
+			tbStatus.BackColor = listAllItems.Items.Count >= Category.RequiredCount ? tbStatus.BackColor = Color.LightGreen : tbStatus.BackColor = Color.IndianRed;
 		}
     }
 }

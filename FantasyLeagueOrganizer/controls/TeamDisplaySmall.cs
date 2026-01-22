@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FantasyLeagueOrganizer.Controls;
+using FantasyLeagueOrganizer.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,37 +12,54 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer
 {
-	public partial class TeamDisplaySmall : UserControl
-	{
-		public Team Team;
+    public partial class TeamDisplaySmall : ctrlFantasyLeagueBase
+    {
+        public Team Team;
 
-		public TeamDisplaySmall()
-		{
-			InitializeComponent();
-		}
+        public TeamDisplaySmall()
+        {
+            InitializeComponent();
+        }
 
-		public TeamDisplaySmall(Team team) : this()
-		{
-			Team = team;
-		}
+        public TeamDisplaySmall(LeagueDbContext context, Team team) : base(context)
+        {
+            InitializeComponent();
 
-		public void Update()
-		{
-			BackColor = Team.Color;
+            Context = context;
 
-			lblName.Text = Team.Name;
-			lblRecord.Text = Team.RecordString;
+            Team = team;
+            RefreshUI();
+        }
 
-			if (Team.ValidateLineup())
-			{
-				tbLineupStatus.Text = " Lineup OK";
-				tbLineupStatus.BackColor = Color.LightGreen;
-			}
-			else
-			{
-				tbLineupStatus.Text = " Lineup Not OK";
-				tbLineupStatus.BackColor = Color.IndianRed;
-			}
-		}
-	}
+        public override void RefreshUI()
+        {
+            BackColor = Team.Color;
+
+            lblName.Text = Team.Name;
+            lblRecord.Text = Team.RecordString;
+
+            if (Team.ValidateLineup())
+            {
+                tbLineupStatus.Text = " Lineup OK";
+                tbLineupStatus.BackColor = Color.LightGreen;
+            }
+            else
+            {
+                tbLineupStatus.Text = " Lineup Not OK";
+                tbLineupStatus.BackColor = Color.IndianRed;
+            }
+        }
+
+        protected override void LoadDataFromDatabase()
+        {
+            Context.Entry(Team).Reload();
+        }
+
+        private void btnEditLineup_Click(object sender, EventArgs e)
+        {
+            var editLineupForm = new frmModifyLineup(Context, Team);
+            editLineupForm.DatabaseDataChanged = ExternalDataChanged;
+            editLineupForm.ShowDialog();
+        }
+    }
 }

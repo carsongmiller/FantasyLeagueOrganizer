@@ -9,13 +9,13 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer.Forms
 {
-    public partial class frmPlayMatchup : Form
+    public partial class frmPlayMatchup : frmFantasyLeagueBase
     {
         public Matchup Matchup;
         private System.Timers.Timer tmrPlay;
         private int categoriesRevealed = 0;
 
-        public frmPlayMatchup(Matchup matchup)
+        public frmPlayMatchup(LeagueDbContext context, Matchup matchup) : base(context)
         {
             InitializeComponent();
             Matchup = matchup;
@@ -39,10 +39,10 @@ namespace FantasyLeagueOrganizer.Forms
 
 			if (Matchup.Result == Matchup.MatchupResult.Incomplete)
             {
-				if (categoriesRevealed == Matchup.League.Categories.Sum(c => c.RequiredCount) - 1 && Math.Abs(Matchup.ScoreA - Matchup.ScoreB) <= 10)
-				{
-                    tmrPlay.Interval = 3000;
-				}
+				//if (categoriesRevealed == Matchup.League.Categories.Sum(c => c.RequiredCount) - 1 && Math.Abs(Matchup.ScoreA - Matchup.ScoreB) <= 10)
+				//{
+    //                tmrPlay.Interval = 3000;
+				//}
 				tmrPlay.Start();
             }
         }
@@ -114,6 +114,9 @@ namespace FantasyLeagueOrganizer.Forms
             }
 
             RevealWinner();
+
+            Context.SaveChanges();
+            DatabaseDataChanged.Invoke();
         }
 
         private void UpdateScore(int addScoreA, int addScoreB)

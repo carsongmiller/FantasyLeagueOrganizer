@@ -22,6 +22,8 @@ namespace FantasyLeagueOrganizer.controls
 
             Team = team;
 
+            grpLineupViewer.Text = $"Lineup Viewer - {Team.Name}";
+
             foreach (var category in team.League.Categories)
             {
                 var newLineupCategoryViewer = new LineupCategoryViewer(team, category);
@@ -33,7 +35,7 @@ namespace FantasyLeagueOrganizer.controls
         {
             foreach (LineupCategoryViewer control in flowLayoutPanel1.Controls)
             {
-                control.Update();
+                control.RefreshUI();
 			}
 		}
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FantasyLeagueOrganizer.Controls;
+using FantasyLeagueOrganizer.DatabseClasses;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,17 +10,19 @@ using System.Windows.Forms;
 
 namespace FantasyLeagueOrganizer.controls
 {
-    public partial class LeagueSummary : UserControl
+    public partial class LeagueSummary : ctrlFantasyLeagueBase
     {
         League League;
+        public LeagueDbContext Context;
         public LeagueSummary()
         {
             InitializeComponent();
         }
 
-        public void SetLeague(League league)
+        public void Setup(LeagueDbContext context)
         {
-            League = league;
+            Context = context;
+            League = DatabaseHelpers.LoadLeague(context);
 
             flowLayoutPanel1.Controls.Clear();
 
@@ -26,14 +30,21 @@ namespace FantasyLeagueOrganizer.controls
             {
                 if (team.Name == "bye") continue; // skip bye teams
 
-				var newTeamDisplaySmall = new TeamDisplaySmall(team);
+				var newTeamDisplaySmall = new TeamDisplaySmall(Context, team);
+                newTeamDisplaySmall.Width = Width - Padding.Horizontal - newTeamDisplaySmall.Margin.Horizontal - Margin.Horizontal;
+                newTeamDisplaySmall.DatabaseDataChanged = ExternalDataChanged;
                 flowLayoutPanel1.Controls.Add(newTeamDisplaySmall);
 			}
 
-            Update();
+            RefreshUI();
         }
 
-        public void Update()
+        protected override void LoadDataFromDatabase()
+        {
+            Context.Entry(League).Reload();
+        }
+
+        public override void RefreshUI()
         {
 			//get list of teams from the controls currently in the flow layout panel
             var teamsWithExistingControls = flowLayoutPanel1.Controls.OfType<TeamDisplaySmall>().Select(t => t.Team).ToList();
@@ -52,14 +63,16 @@ namespace FantasyLeagueOrganizer.controls
             }
 
 
-            //add a contorl to the flow layout panel for any teams in the league that don't have a control yet
+            //add a conrol to the flow layout panel for any teams in the league that don't have a control yet
             foreach (var team in League.Teams)
             {
 				if (team.Name == "bye") continue; // skip bye teams
 
 				if (!teamsWithExistingControls.Contains(team))
                 {
-                    var newTeamDisplaySmall = new TeamDisplaySmall(team);
+                    var newTeamDisplaySmall = new TeamDisplaySmall(Context, team);
+
+                    newTeamDisplaySmall.DatabaseDataChanged = ExternalDataChanged;
 
                     //Find the index at which it should go
                     var currentTeamsInPanel = flowLayoutPanel1.Controls.OfType<TeamDisplaySmall>().Select(t => t.Team.Name).ToList();
