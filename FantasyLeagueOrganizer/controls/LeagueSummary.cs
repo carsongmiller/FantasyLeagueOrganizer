@@ -1,5 +1,4 @@
-﻿using FantasyLeagueOrganizer.Controls;
-using FantasyLeagueOrganizer.DatabseClasses;
+﻿using FantasyLeagueOrganizer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace FantasyLeagueOrganizer.controls
+namespace FantasyLeagueOrganizer.Controls
 {
     public partial class LeagueSummary : ctrlFantasyLeagueBase
     {

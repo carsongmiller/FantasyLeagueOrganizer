@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace FantasyLeagueOrganizer
+namespace FantasyLeagueOrganizer.Models
 {
-	public class Matchup
+	public class MatchupRegularSeason
 	{
 		public Guid Id { get; set; }
 		public League League { get; set; }
@@ -48,14 +48,6 @@ namespace FantasyLeagueOrganizer
 			}
 		}
 
-		public enum MatchupResult
-		{
-			AWon,
-			BWon,
-			Tie,
-			Incomplete
-		}
-
 		public RankingProvider? RankingProvider { get; set; }
 		public Guid? RankingProviderId { get; set; }
 
@@ -68,12 +60,12 @@ namespace FantasyLeagueOrganizer
 		[NotMapped]
 		public string ScoreString => $"({ScoreA} - {ScoreB})";
 
-		public Matchup ()
+		public MatchupRegularSeason ()
 		{
 
 		}
 
-		public Matchup(int week, Team teamA, Team? teamB, League league)
+		public MatchupRegularSeason(int week, Team teamA, Team? teamB, League league)
 		{
 			Week = week;
 			League = league;

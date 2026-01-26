@@ -30,9 +30,9 @@
         {
             label1 = new Label();
             tbTeamName = new TextBox();
-            lineupEditor1 = new FantasyLeagueOrganizer.controls.LineupEditor();
+            lineupEditor1 = new FantasyLeagueOrganizer.Controls.LineupEditor();
             btnAddToTeam = new Button();
-            freeAgentsLarge1 = new FantasyLeagueOrganizer.controls.FreeAgentsLarge();
+            freeAgentsLarge1 = new FantasyLeagueOrganizer.Controls.FreeAgentsLarge();
             SuspendLayout();
             // 
             // label1
@@ -100,8 +100,8 @@
 
         private Label label1;
         private TextBox tbTeamName;
-        private controls.LineupEditor lineupEditor1;
+        private Controls.LineupEditor lineupEditor1;
         private Button btnAddToTeam;
-        private controls.FreeAgentsLarge freeAgentsLarge1;
+        private Controls.FreeAgentsLarge freeAgentsLarge1;
     }
 }

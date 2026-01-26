@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace FantasyLeagueOrganizer
+namespace FantasyLeagueOrganizer.Models
 {
 	public class LeagueDbContext: DbContext
 	{
@@ -15,7 +15,7 @@ namespace FantasyLeagueOrganizer
 		public DbSet<Item> Items => Set<Item>();
 		public DbSet<Category> Categories => Set<Category>();
 		public DbSet<RankingProvider> RankingProviders => Set<RankingProvider>();
-		public DbSet<Matchup> Matchups => Set<Matchup>();
+		public DbSet<MatchupRegularSeason> Matchups => Set<MatchupRegularSeason>();
 
 		protected override void OnConfiguring(DbContextOptionsBuilder options)
 		{

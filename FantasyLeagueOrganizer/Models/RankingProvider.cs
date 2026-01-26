@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FantasyLeagueOrganizer
+namespace FantasyLeagueOrganizer.Models
 {
 	/// <summary>
 	/// A ranking provider that is simply a list of rankings for a set of items.  Completely static and pre-determined.

@@ -1,5 +1,5 @@
-using FantasyLeagueOrganizer.controls;
-using FantasyLeagueOrganizer.DatabseClasses;
+using FantasyLeagueOrganizer.Controls;
+using FantasyLeagueOrganizer.Models;
 using FantasyLeagueOrganizer.Forms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
@@ -253,7 +253,7 @@ namespace FantasyLeagueOrganizer.Forms
             chkListCategories.DisplayMember = nameof(Category.Name);
             listTeams.DisplayMember = nameof(Team.Name);
             listRoster.DisplayMember = nameof(Item.Name);
-            listWeeks.DisplayMember = nameof(Matchup.ToString);
+            listWeeks.DisplayMember = nameof(MatchupRegularSeason.ToString);
             listRankingProviders.DisplayMember = nameof(RankingProvider.Name);
 
             leagueSummary1.Context = Context;

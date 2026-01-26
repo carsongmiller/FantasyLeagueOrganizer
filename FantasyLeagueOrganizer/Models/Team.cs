@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace FantasyLeagueOrganizer
+namespace FantasyLeagueOrganizer.Models
 {
 	public class Team
 	{
@@ -48,7 +48,7 @@ namespace FantasyLeagueOrganizer
 		public int Losses => League.GetMatchups(this).Where(m => m.Loser == this).Count();
 
 		[NotMapped]
-		public int Ties => League.GetMatchups(this).Where(m => m.Result == Matchup.MatchupResult.Tie).Count();
+		public int Ties => League.GetMatchups(this).Where(m => m.Result == MatchupResult.Tie).Count();
 
 		public bool LineupIsValid 
 		{

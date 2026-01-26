@@ -37,7 +37,7 @@
             cbFillLineups = new CheckBox();
             nudNumTeams = new NumericUpDown();
             btnFreeAgents = new Button();
-            leagueSummary1 = new FantasyLeagueOrganizer.controls.LeagueSummary();
+            leagueSummary1 = new FantasyLeagueOrganizer.Controls.LeagueSummary();
             btnSaveLeague = new Button();
             grpTeams = new GroupBox();
             btnDeleteTeam = new Button();
@@ -76,7 +76,7 @@
             label6 = new Label();
             nudNumWeeks = new NumericUpDown();
             btnGenerateSchedule = new Button();
-            leagueSummary2 = new FantasyLeagueOrganizer.controls.LeagueSummary();
+            leagueSummary2 = new FantasyLeagueOrganizer.Controls.LeagueSummary();
             tabPage3 = new TabPage();
             btnGenerateRankingProvider = new Button();
             colorDialog1 = new ColorDialog();
@@ -688,9 +688,9 @@
 		private Label label5;
         private NumericUpDown nudRequiredCount;
         private Button btnModifyLineup;
-        private controls.LeagueSummary leagueSummary1;
+        private Controls.LeagueSummary leagueSummary1;
         private Button btnGenerateSchedule;
-        private controls.LeagueSummary leagueSummary2;
+        private Controls.LeagueSummary leagueSummary2;
         private Label label6;
         private NumericUpDown nudNumWeeks;
         private Button btnFreeAgents;

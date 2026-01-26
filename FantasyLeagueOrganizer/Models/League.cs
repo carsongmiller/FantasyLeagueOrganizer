@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FantasyLeagueOrganizer
+namespace FantasyLeagueOrganizer.Models
 {
 	public class League
 	{
@@ -46,7 +46,7 @@ namespace FantasyLeagueOrganizer
 		/// </summary>
 		public List<Category> Categories { get; set; } = new();
 
-		public List<Matchup> Matchups { get; set; } = new();
+		public List<MatchupRegularSeason> Matchups { get; set; } = new();
 
 		public List<RankingProvider> RankingProviders { get; set; } = new();
 
@@ -81,7 +81,7 @@ namespace FantasyLeagueOrganizer
 			Categories.Add(category);
 		}
 
-		public void AddMatchup(Matchup matchup)
+		public void AddMatchup(MatchupRegularSeason matchup)
 		{
 			Matchups.Add(matchup);
 		}
@@ -183,7 +183,7 @@ namespace FantasyLeagueOrganizer
 		/// </summary>
 		/// <param name="week"></param>
 		/// <returns></returns>
-		public List<Matchup> GetMatchups(int week)
+		public List<MatchupRegularSeason> GetMatchups(int week)
 		{
 			return Matchups.Where(m => m.Week == week).ToList();
 		}
@@ -193,7 +193,7 @@ namespace FantasyLeagueOrganizer
 		/// </summary>
 		/// <param name="team">The team in question</param>
 		/// <returns></returns>
-		public List<Matchup> GetMatchups(Team team)
+		public List<MatchupRegularSeason> GetMatchups(Team team)
 		{
 			return Matchups.Where(m => m.TeamIdA == team.Id || m.TeamIdB == team.Id).ToList();
 		}
@@ -204,12 +204,12 @@ namespace FantasyLeagueOrganizer
 		/// <param name="team"></param>
 		/// <param name="week"></param>
 		/// <returns></returns>
-		public Matchup GetMatchup(Team team, int week)
+		public MatchupRegularSeason GetMatchup(Team team, int week)
 		{
 			return Matchups.Where(m => m.Week == week && (m.TeamIdA == team.Id || m.TeamIdB == team.Id)).Single();
 		}
 
-		public void RemoveMatchup(Matchup matchup)
+		public void RemoveMatchup(MatchupRegularSeason matchup)
 		{
 			if (!Matchups.Contains(matchup))
 			{
@@ -258,15 +258,15 @@ namespace FantasyLeagueOrganizer
 					//Set TeamB to null.  This signifies a bye
 					if (teams[i].Name == "bye")
 					{
-						AddMatchup(new Matchup(week, teams[teams.Count - i - 1], null, this));
+						AddMatchup(new MatchupRegularSeason(week, teams[teams.Count - i - 1], null, this));
 					}
 					else if (teams[teams.Count - i - 1].Name == "bye")
 					{
-						AddMatchup(new Matchup(week, teams[i], null, this));
+						AddMatchup(new MatchupRegularSeason(week, teams[i], null, this));
 					}
 					else
 					{
-						AddMatchup(new Matchup(week, teams[i], teams[teams.Count - i - 1], this));
+						AddMatchup(new MatchupRegularSeason(week, teams[i], teams[teams.Count - i - 1], this));
 					}
 				}
 

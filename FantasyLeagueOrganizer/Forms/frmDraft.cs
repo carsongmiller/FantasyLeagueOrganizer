@@ -5,6 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using FantasyLeagueOrganizer.Controls;
+using FantasyLeagueOrganizer.Models;
 
 namespace FantasyLeagueOrganizer.Forms
 {
@@ -130,7 +132,7 @@ namespace FantasyLeagueOrganizer.Forms
             tbPick.Text = $"{CurrentPickInRound + 1} / {League.Teams.Count}";
         }
 
-        private void freeAgentsLarge1_SelectedItemChanged(object sender, FantasyLeagueOrganizer.controls.FreeAgentsLarge.SelectedItemChangedEventArgs e)
+        private void freeAgentsLarge1_SelectedItemChanged(object sender, FantasyLeagueOrganizer.Controls.FreeAgentsLarge.SelectedItemChangedEventArgs e)
         {
             tbSelectedPick.Text = e.Item?.Name ?? "";
 

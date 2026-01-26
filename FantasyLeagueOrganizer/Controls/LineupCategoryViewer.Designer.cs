@@ -1,4 +1,4 @@
-﻿namespace FantasyLeagueOrganizer.controls
+﻿namespace FantasyLeagueOrganizer.Controls
 {
     partial class LineupCategoryViewer
     {

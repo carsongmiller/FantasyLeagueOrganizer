@@ -1,5 +1,4 @@
-﻿using FantasyLeagueOrganizer.Controls;
-using FantasyLeagueOrganizer.Forms;
+﻿using FantasyLeagueOrganizer.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FantasyLeagueOrganizer.Models;
 
-namespace FantasyLeagueOrganizer
+namespace FantasyLeagueOrganizer.Controls
 {
     public partial class TeamDisplaySmall : ctrlFantasyLeagueBase
     {

@@ -1,4 +1,4 @@
-﻿namespace FantasyLeagueOrganizer
+﻿namespace FantasyLeagueOrganizer.Controls
 {
 	partial class TeamDisplaySmall
 	{

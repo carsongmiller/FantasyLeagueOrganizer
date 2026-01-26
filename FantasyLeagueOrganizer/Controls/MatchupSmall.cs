@@ -6,12 +6,13 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using FantasyLeagueOrganizer.Models;
 
-namespace FantasyLeagueOrganizer.controls
+namespace FantasyLeagueOrganizer.Controls
 {
     public partial class MatchupSmall : UserControl
     {
-        public Matchup Matchup;
+        public MatchupRegularSeason Matchup;
         private LeagueDbContext Context;
 
 		[Browsable(false)]
@@ -19,7 +20,7 @@ namespace FantasyLeagueOrganizer.controls
 		public Action DatabaseDataChanged { get; set; }
 
 		private int CenterRegionWidth = 100;
-        public MatchupSmall(LeagueDbContext context, Matchup matchup)
+        public MatchupSmall(LeagueDbContext context, MatchupRegularSeason matchup)
         {
             InitializeComponent();
 
@@ -53,21 +54,21 @@ namespace FantasyLeagueOrganizer.controls
                 lblTeamBRecord.Text = Matchup.TeamB.RecordString;
             }
 
-            if (Matchup.Result == Matchup.MatchupResult.Tie)
+            if (Matchup.Result == MatchupResult.Tie)
             {
                 lblTeamAResult.Text = "T";
                 lblTeamAResult.ForeColor = Color.DarkBlue;
                 lblTeamBResult.Text = "T";
                 lblTeamBResult.ForeColor = Color.DarkBlue;
             }
-            else if (Matchup.Result == Matchup.MatchupResult.AWon)
+            else if (Matchup.Result == MatchupResult.AWon)
             {
                 lblTeamAResult.Text = "W";
                 lblTeamAResult.ForeColor = Color.DarkGreen;
                 lblTeamBResult.Text = "L";
                 lblTeamBResult.ForeColor = Color.DarkRed;
             }
-            else if (Matchup.Result == Matchup.MatchupResult.BWon)
+            else if (Matchup.Result == MatchupResult.BWon)
             {
                 lblTeamAResult.Text = "L";
                 lblTeamAResult.ForeColor = Color.DarkRed;

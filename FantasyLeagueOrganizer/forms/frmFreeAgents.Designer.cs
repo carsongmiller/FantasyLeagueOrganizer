@@ -1,4 +1,6 @@
-﻿namespace FantasyLeagueOrganizer.Forms
+﻿using FantasyLeagueOrganizer.Controls;
+
+namespace FantasyLeagueOrganizer.Forms
 {
     partial class frmFreeAgents
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            freeAgentsLarge1 = new FantasyLeagueOrganizer.controls.FreeAgentsLarge();
+            freeAgentsLarge1 = new FantasyLeagueOrganizer.Controls.FreeAgentsLarge();
             listTeams = new ListBox();
             teamDisplaySmall1 = new TeamDisplaySmall();
             SuspendLayout();
@@ -73,7 +75,7 @@
 
         #endregion
 
-        private controls.FreeAgentsLarge freeAgentsLarge1;
+        private Controls.FreeAgentsLarge freeAgentsLarge1;
         private ListBox listTeams;
         private TeamDisplaySmall teamDisplaySmall1;
     }

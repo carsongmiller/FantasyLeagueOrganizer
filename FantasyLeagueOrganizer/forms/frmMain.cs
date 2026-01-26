@@ -1,4 +1,5 @@
-﻿using FantasyLeagueOrganizer.DatabseClasses;
+﻿using FantasyLeagueOrganizer.Controls;
+using FantasyLeagueOrganizer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -35,7 +35,7 @@
             adminToolStripMenuItem = new ToolStripMenuItem();
             adminControlsToolStripMenuItem = new ToolStripMenuItem();
             btnBeginDraft = new Button();
-            leagueSummary1 = new FantasyLeagueOrganizer.controls.LeagueSummary();
+            leagueSummary1 = new FantasyLeagueOrganizer.Controls.LeagueSummary();
             btnPlay = new Button();
             btnTrade = new Button();
             ctrlBracket1 = new FantasyLeagueOrganizer.Controls.ctrlBracket();
@@ -160,7 +160,7 @@
         private ToolStripMenuItem adminControlsToolStripMenuItem;
         private Button btnBeginDraft;
         private ToolStripMenuItem reloadLeagueToolStripMenuItem;
-        private controls.LeagueSummary leagueSummary1;
+        private Controls.LeagueSummary leagueSummary1;
         private Button btnPlay;
         private Button btnTrade;
         private Controls.ctrlBracket ctrlBracket1;

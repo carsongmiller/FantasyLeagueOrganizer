@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDraft));
-            freeAgentsLarge1 = new FantasyLeagueOrganizer.controls.FreeAgentsLarge();
+            freeAgentsLarge1 = new FantasyLeagueOrganizer.Controls.FreeAgentsLarge();
             tbCurrentTeam = new TextBox();
             lblHotSeat = new Label();
             tbOnDeck = new TextBox();
@@ -40,7 +40,7 @@
             tbSelectedPick = new TextBox();
             lblSelectedPick = new Label();
             btnLockInPick = new Button();
-            lineupViewer1 = new FantasyLeagueOrganizer.controls.LineupViewer();
+            lineupViewer1 = new FantasyLeagueOrganizer.Controls.LineupViewer();
             splitContainer1 = new SplitContainer();
             label1 = new Label();
             tbLastPick = new TextBox();
@@ -317,7 +317,7 @@
 
         #endregion
 
-        private controls.FreeAgentsLarge freeAgentsLarge1;
+        private Controls.FreeAgentsLarge freeAgentsLarge1;
         private TextBox tbCurrentTeam;
         private Label lblHotSeat;
         private TextBox tbOnDeck;
@@ -328,7 +328,7 @@
         private TextBox tbSelectedPick;
         private Label lblSelectedPick;
         private Button btnLockInPick;
-        private controls.LineupViewer lineupViewer1;
+        private Controls.LineupViewer lineupViewer1;
         private SplitContainer splitContainer1;
         private Label label1;
         private TextBox tbLastPick;

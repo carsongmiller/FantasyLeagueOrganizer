@@ -1,4 +1,5 @@
-﻿using FantasyLeagueOrganizer.controls;
+﻿using FantasyLeagueOrganizer.Controls;
+using FantasyLeagueOrganizer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,11 +12,11 @@ namespace FantasyLeagueOrganizer.Forms
 {
     public partial class frmPlayMatchup : frmFantasyLeagueBase
     {
-        public Matchup Matchup;
+        public MatchupRegularSeason Matchup;
         private System.Timers.Timer tmrPlay;
         private int categoriesRevealed = 0;
 
-        public frmPlayMatchup(LeagueDbContext context, Matchup matchup) : base(context)
+        public frmPlayMatchup(LeagueDbContext context, MatchupRegularSeason matchup) : base(context)
         {
             InitializeComponent();
             Matchup = matchup;
@@ -37,7 +38,7 @@ namespace FantasyLeagueOrganizer.Forms
                 RevealNext();
             });
 
-			if (Matchup.Result == Matchup.MatchupResult.Incomplete)
+			if (Matchup.Result == MatchupResult.Incomplete)
             {
 				//if (categoriesRevealed == Matchup.League.Categories.Sum(c => c.RequiredCount) - 1 && Math.Abs(Matchup.ScoreA - Matchup.ScoreB) <= 10)
 				//{
@@ -102,15 +103,15 @@ namespace FantasyLeagueOrganizer.Forms
         {
             if (Matchup.ScoreA > Matchup.ScoreB)
             {
-                Matchup.Result = Matchup.MatchupResult.AWon;
+                Matchup.Result = MatchupResult.AWon;
             }
             else if (Matchup.ScoreB > Matchup.ScoreA)
             {
-                Matchup.Result = Matchup.MatchupResult.BWon;
+                Matchup.Result = MatchupResult.BWon;
             }
             else
             {
-                Matchup.Result = Matchup.MatchupResult.Tie;
+                Matchup.Result = MatchupResult.Tie;
             }
 
             RevealWinner();
@@ -130,17 +131,17 @@ namespace FantasyLeagueOrganizer.Forms
         private void RevealWinner()
         {
             var result = Matchup.Result;
-            if (result == Matchup.MatchupResult.AWon)
+            if (result == MatchupResult.AWon)
             {
                 lblScoreA.BackColor = Color.LightGreen;
                 lblScoreB.BackColor = Color.IndianRed;
             }
-            else if (result == Matchup.MatchupResult.BWon)
+            else if (result == MatchupResult.BWon)
             {
                 lblScoreA.BackColor = Color.IndianRed;
                 lblScoreB.BackColor = Color.LightGreen;
             }
-            else if (result == Matchup.MatchupResult.Tie)
+            else if (result == MatchupResult.Tie)
             {
                 lblScoreA.BackColor = Color.LightBlue;
                 lblScoreB.BackColor = Color.LightBlue;

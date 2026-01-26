@@ -1,10 +1,10 @@
-﻿using FantasyLeagueOrganizer.controls;
+﻿using FantasyLeagueOrganizer.Controls;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FantasyLeagueOrganizer.DatabseClasses
+namespace FantasyLeagueOrganizer.Models
 {
     public static class DatabaseHelpers
     {

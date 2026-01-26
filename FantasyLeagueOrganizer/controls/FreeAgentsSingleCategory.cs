@@ -5,9 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using static FantasyLeagueOrganizer.controls.LineupCategoryEdidtor;
+using FantasyLeagueOrganizer.Models;
 
-namespace FantasyLeagueOrganizer.controls
+namespace FantasyLeagueOrganizer.Controls
 {
     public partial class FreeAgentsSingleCategory : UserControl
     {
