@@ -34,12 +34,14 @@
             btnLoadLeague = new Button();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            cbPlayMatchups = new CheckBox();
             cbFillLineups = new CheckBox();
             nudNumTeams = new NumericUpDown();
             btnFreeAgents = new Button();
             leagueSummary1 = new FantasyLeagueOrganizer.Controls.LeagueSummary();
             btnSaveLeague = new Button();
             grpTeams = new GroupBox();
+            listTeams = new FantasyLeagueOrganizer.Controls.listBoxTeams();
             btnDeleteTeam = new Button();
             btnModifyLineup = new Button();
             label5 = new Label();
@@ -72,7 +74,6 @@
             listRankingProviders = new ListBox();
             listWeeks = new ListBox();
             flowMatchups = new FlowLayoutPanel();
-            btnPrintSchedule = new Button();
             label6 = new Label();
             nudNumWeeks = new NumericUpDown();
             btnGenerateSchedule = new Button();
@@ -80,7 +81,7 @@
             tabPage3 = new TabPage();
             btnGenerateRankingProvider = new Button();
             colorDialog1 = new ColorDialog();
-            listTeams = new FantasyLeagueOrganizer.Controls.listBoxTeams();
+            btnGeneratePlayoffs = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudNumTeams).BeginInit();
@@ -137,6 +138,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(cbPlayMatchups);
             tabPage1.Controls.Add(cbFillLineups);
             tabPage1.Controls.Add(nudNumTeams);
             tabPage1.Controls.Add(btnFreeAgents);
@@ -156,9 +158,23 @@
             tabPage1.Text = "Setup";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // cbPlayMatchups
+            // 
+            cbPlayMatchups.AutoSize = true;
+            cbPlayMatchups.Checked = true;
+            cbPlayMatchups.CheckState = CheckState.Checked;
+            cbPlayMatchups.Location = new Point(869, 9);
+            cbPlayMatchups.Name = "cbPlayMatchups";
+            cbPlayMatchups.Size = new Size(104, 19);
+            cbPlayMatchups.TabIndex = 17;
+            cbPlayMatchups.Text = "Play Matchups";
+            cbPlayMatchups.UseVisualStyleBackColor = true;
+            // 
             // cbFillLineups
             // 
             cbFillLineups.AutoSize = true;
+            cbFillLineups.Checked = true;
+            cbFillLineups.CheckState = CheckState.Checked;
             cbFillLineups.Location = new Point(979, 9);
             cbFillLineups.Name = "cbFillLineups";
             cbFillLineups.Size = new Size(85, 19);
@@ -172,7 +188,7 @@
             nudNumTeams.Name = "nudNumTeams";
             nudNumTeams.Size = new Size(61, 23);
             nudNumTeams.TabIndex = 15;
-            nudNumTeams.Value = new decimal(new int[] { 6, 0, 0, 0 });
+            nudNumTeams.Value = new decimal(new int[] { 4, 0, 0, 0 });
             // 
             // btnFreeAgents
             // 
@@ -224,6 +240,17 @@
             grpTeams.TabIndex = 11;
             grpTeams.TabStop = false;
             grpTeams.Text = "Teams";
+            // 
+            // listTeams
+            // 
+            listTeams.DisplayMember = "Name";
+            listTeams.DrawMode = DrawMode.OwnerDrawFixed;
+            listTeams.FormattingEnabled = true;
+            listTeams.ItemHeight = 20;
+            listTeams.Location = new Point(6, 22);
+            listTeams.Name = "listTeams";
+            listTeams.Size = new Size(197, 224);
+            listTeams.TabIndex = 23;
             // 
             // btnDeleteTeam
             // 
@@ -500,11 +527,11 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(btnGeneratePlayoffs);
             tabPage2.Controls.Add(btnAssignRankingProvider);
             tabPage2.Controls.Add(listRankingProviders);
             tabPage2.Controls.Add(listWeeks);
             tabPage2.Controls.Add(flowMatchups);
-            tabPage2.Controls.Add(btnPrintSchedule);
             tabPage2.Controls.Add(label6);
             tabPage2.Controls.Add(nudNumWeeks);
             tabPage2.Controls.Add(btnGenerateSchedule);
@@ -551,19 +578,10 @@
             flowMatchups.Size = new Size(559, 543);
             flowMatchups.TabIndex = 6;
             // 
-            // btnPrintSchedule
-            // 
-            btnPrintSchedule.Location = new Point(17, 95);
-            btnPrintSchedule.Name = "btnPrintSchedule";
-            btnPrintSchedule.Size = new Size(138, 23);
-            btnPrintSchedule.TabIndex = 5;
-            btnPrintSchedule.Text = "Print Schedule";
-            btnPrintSchedule.UseVisualStyleBackColor = true;
-            // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(17, 39);
+            label6.Location = new Point(22, 8);
             label6.Name = "label6";
             label6.Size = new Size(51, 15);
             label6.TabIndex = 3;
@@ -571,7 +589,7 @@
             // 
             // nudNumWeeks
             // 
-            nudNumWeeks.Location = new Point(101, 37);
+            nudNumWeeks.Location = new Point(106, 6);
             nudNumWeeks.Name = "nudNumWeeks";
             nudNumWeeks.Size = new Size(120, 23);
             nudNumWeeks.TabIndex = 2;
@@ -579,7 +597,7 @@
             // 
             // btnGenerateSchedule
             // 
-            btnGenerateSchedule.Location = new Point(17, 66);
+            btnGenerateSchedule.Location = new Point(22, 35);
             btnGenerateSchedule.Name = "btnGenerateSchedule";
             btnGenerateSchedule.Size = new Size(138, 23);
             btnGenerateSchedule.TabIndex = 1;
@@ -615,14 +633,15 @@
             btnGenerateRankingProvider.UseVisualStyleBackColor = true;
             btnGenerateRankingProvider.Click += btnGenerateRankingProvider_Click;
             // 
-            // listTeams
+            // btnGeneratePlayoffs
             // 
-            listTeams.DrawMode = DrawMode.OwnerDrawFixed;
-            listTeams.FormattingEnabled = true;
-            listTeams.Location = new Point(6, 22);
-            listTeams.Name = "listTeams";
-            listTeams.Size = new Size(197, 228);
-            listTeams.TabIndex = 23;
+            btnGeneratePlayoffs.Location = new Point(22, 64);
+            btnGeneratePlayoffs.Name = "btnGeneratePlayoffs";
+            btnGeneratePlayoffs.Size = new Size(138, 23);
+            btnGeneratePlayoffs.TabIndex = 10;
+            btnGeneratePlayoffs.Text = "Generate Playoffs";
+            btnGeneratePlayoffs.UseVisualStyleBackColor = true;
+            btnGeneratePlayoffs.Click += btnGeneratePlayoffs_Click;
             // 
             // frmAdmin
             // 
@@ -695,7 +714,6 @@
         private NumericUpDown nudNumWeeks;
         private Button btnFreeAgents;
         private Button btnDeleteTeam;
-        private Button btnPrintSchedule;
         private TabPage tabPage3;
         private Button btnGenerateRankingProvider;
         private FlowLayoutPanel flowMatchups;
@@ -705,5 +723,7 @@
         private NumericUpDown nudNumTeams;
         private CheckBox cbFillLineups;
         private Controls.listBoxTeams listTeams;
+        private CheckBox cbPlayMatchups;
+        private Button btnGeneratePlayoffs;
     }
 }

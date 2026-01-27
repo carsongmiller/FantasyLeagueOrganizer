@@ -129,7 +129,7 @@ namespace FantasyLeagueOrganizer.Controls
         private void ExternalDataChanged()
         {
             //Reload the matchup from the DB
-            Matchup = Context.Leagues.Single().Matchups.Where(m => m.Id == Matchup.Id).Single();
+            Matchup = Context.Leagues.Single().MatchupsRegularSeason.Where(m => m.Id == Matchup.Id).Single();
             if (Matchup != null)
             {
                 RefreshUI();

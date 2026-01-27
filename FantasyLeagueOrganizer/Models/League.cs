@@ -37,6 +37,47 @@ namespace FantasyLeagueOrganizer.Models
 		public List<Team> Teams { get; set; } = new();
 
 		/// <summary>
+		/// Ranked list of teams, sorted by: Points => H2H => Most Wins => Fewest Losses => Alphabetical
+		/// </summary>
+		[NotMapped]
+		public List<Team> TeamsRanked
+		{
+			get
+			{
+				// First, sort by everything except head-to-head
+				var teamsGroupedByPoints = Teams.GroupBy(t => t.Points).OrderByDescending(g => g.Key);
+
+				var rankedTeams = new List<Team>();
+
+				foreach (var pointGroup in teamsGroupedByPoints)
+				{
+					// If only one team in this point tier, no need for tiebreakers
+					if (pointGroup.Count() == 1)
+					{
+						rankedTeams.Add(pointGroup.First());
+						continue;
+					}
+
+					// Multiple teams with same points - apply tiebreakers
+					var tiedTeams = pointGroup.ToList();
+
+					// Try to break ties with head-to-head
+					var sortedByHeadToHead = SortByHeadToHead(tiedTeams);
+
+					// Then apply remaining tiebreakers
+					var finalSort = sortedByHeadToHead
+						.ThenByDescending(t => t.Wins)
+						.ThenBy(t => t.Losses)
+						.ThenBy(t => t.Name);
+
+					rankedTeams.AddRange(finalSort);
+				}
+
+				return rankedTeams;
+			}
+		}
+
+		/// <summary>
 		/// All items in the league, including ones not assigned to teams
 		/// </summary>
 		public HashSet<Item> Items { get; set; } = new();
@@ -46,7 +87,9 @@ namespace FantasyLeagueOrganizer.Models
 		/// </summary>
 		public List<Category> Categories { get; set; } = new();
 
-		public List<MatchupRegularSeason> Matchups { get; set; } = new();
+		public List<MatchupRegularSeason> MatchupsRegularSeason { get; set; } = new();
+
+		public List<MatchupPlayoffs> MatchupsPlayoffs { get; set; } = new();
 
 		public List<RankingProvider> RankingProviders { get; set; } = new();
 
@@ -66,30 +109,35 @@ namespace FantasyLeagueOrganizer.Models
 			return $"[League] {Name}";
 		}
 
-		public void AddTeam(Team team)
-		{
-			Teams.Add(team);
-		}
+		//public void AddTeam(Team team)
+		//{
+		//	Teams.Add(team);
+		//}
 
-		public void AddItem(Item item)
-		{
-			Items.Add(item);
-		}
+		//public void AddItem(Item item)
+		//{
+		//	Items.Add(item);
+		//}
 
-		public void AddCategory(Category category)
-		{
-			Categories.Add(category);
-		}
+		//public void AddCategory(Category category)
+		//{
+		//	Categories.Add(category);
+		//}
 
-		public void AddMatchup(MatchupRegularSeason matchup)
-		{
-			Matchups.Add(matchup);
-		}
+		//public void AddMatchupRegularSeason(MatchupRegularSeason matchup)
+		//{
+		//	MatchupsRegularSeason.Add(matchup);
+		//}
 
-		public void AddRankingProvider(RankingProvider provider)
-		{
-			RankingProviders.Add(provider);
-		}
+		//public void AddMatchupPlayoffs(MatchupPlayoffs matchup)
+		//{
+		//	MatchupsPlayoffs.Add(matchup);
+		//}
+
+		//public void AddRankingProvider(RankingProvider provider)
+		//{
+		//	RankingProviders.Add(provider);
+		//}
 
 		public bool ContainsTeam(string name)
 		{
@@ -185,7 +233,7 @@ namespace FantasyLeagueOrganizer.Models
 		/// <returns></returns>
 		public List<MatchupRegularSeason> GetMatchups(int week)
 		{
-			return Matchups.Where(m => m.Week == week).ToList();
+			return MatchupsRegularSeason.Where(m => m.Week == week).ToList();
 		}
 
 		/// <summary>
@@ -195,7 +243,7 @@ namespace FantasyLeagueOrganizer.Models
 		/// <returns></returns>
 		public List<MatchupRegularSeason> GetMatchups(Team team)
 		{
-			return Matchups.Where(m => m.TeamIdA == team.Id || m.TeamIdB == team.Id).ToList();
+			return MatchupsRegularSeason.Where(m => m.TeamIdA == team.Id || m.TeamIdB == team.Id).ToList();
 		}
 
 		/// <summary>
@@ -206,26 +254,60 @@ namespace FantasyLeagueOrganizer.Models
 		/// <returns></returns>
 		public MatchupRegularSeason GetMatchup(Team team, int week)
 		{
-			return Matchups.Where(m => m.Week == week && (m.TeamIdA == team.Id || m.TeamIdB == team.Id)).Single();
+			return MatchupsRegularSeason.Where(m => m.Week == week && (m.TeamIdA == team.Id || m.TeamIdB == team.Id)).Single();
 		}
 
 		public void RemoveMatchup(MatchupRegularSeason matchup)
 		{
-			if (!Matchups.Contains(matchup))
+			if (!MatchupsRegularSeason.Contains(matchup))
 			{
 				throw new ArgumentException($"The matchup (id: {matchup.Id}) does not exist in this league ({Name})");
 			}
 
 			matchup.Delete();
-			Matchups.Remove(matchup);
+			MatchupsRegularSeason.Remove(matchup);
 		}
+
+		/// <summary>
+		/// Gets the current rank of a team in the league.  1-based
+		/// </summary>
+		/// <param name="team"></param>
+		/// <returns></returns>
+		public int GetRank(Team team)
+		{
+			//The use of this function will likely result in the ranked teams list being generated multiple times redudantly.
+			//I don't care, teams lists will always be pretty small so it shouldn't matter
+
+			return TeamsRanked.IndexOf(team) + 1;
+		}
+
+		/// <summary>
+		/// Sort teams by head-to-head record. Teams that didn't play each other remain in original order.
+		/// </summary>
+		private IOrderedEnumerable<Team> SortByHeadToHead(List<Team> teams)
+		{
+			// Build head-to-head records between all teams in this group
+			var headToHeadWins = teams.ToDictionary(t => t.Id, t => 0);
+
+			foreach (var team in teams)
+			{
+				var matchupsAgainstTiedTeams = MatchupsRegularSeason
+					.Where(m => m.Winner?.Id == team.Id &&
+							   teams.Any(t => t.Id == m.Loser?.Id));
+
+				headToHeadWins[team.Id] = matchupsAgainstTiedTeams.Count();
+			}
+
+			return teams.OrderByDescending(t => headToHeadWins[t.Id]);
+		}
+
 
 		public void GenerateRoundRobinSchedule()
 		{
 			//First, remove all existing matchups
-			while (Matchups.Count > 0)
+			while (MatchupsRegularSeason.Count > 0)
 			{
-				RemoveMatchup(Matchups.First());
+				RemoveMatchup(MatchupsRegularSeason.First());
 			}
 
 			var teams = Teams.ToList(); //Turn the teams into a list so we can iterate through them by index
@@ -258,15 +340,15 @@ namespace FantasyLeagueOrganizer.Models
 					//Set TeamB to null.  This signifies a bye
 					if (teams[i].Name == "bye")
 					{
-						AddMatchup(new MatchupRegularSeason(week, teams[teams.Count - i - 1], null, this));
+						MatchupsRegularSeason.Add(new MatchupRegularSeason(week, teams[teams.Count - i - 1], null, this));
 					}
 					else if (teams[teams.Count - i - 1].Name == "bye")
 					{
-						AddMatchup(new MatchupRegularSeason(week, teams[i], null, this));
+						MatchupsRegularSeason.Add(new MatchupRegularSeason(week, teams[i], null, this));
 					}
 					else
 					{
-						AddMatchup(new MatchupRegularSeason(week, teams[i], teams[teams.Count - i - 1], this));
+						MatchupsRegularSeason.Add(new MatchupRegularSeason(week, teams[i], teams[teams.Count - i - 1], this));
 					}
 				}
 

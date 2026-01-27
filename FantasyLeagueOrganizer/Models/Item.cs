@@ -47,7 +47,7 @@ namespace FantasyLeagueOrganizer.Models
 			League = league;
 			LeagueId = league.Id;
 
-			league.AddItem(this);
+			league.Items.Add(this);
 		}
 
 		public string AssignedCategoryName => AssignedCategoryId == null ? "Unassigned" : Categories.Single(c => c.Id == AssignedCategoryId).Name;

@@ -68,6 +68,18 @@ namespace FantasyLeagueOrganizer.Models
 		[NotMapped]
 		public string RecordString => $"{Wins} - {Losses} - {Ties}";
 
+		/// <summary>
+		/// This team's current points, based on the league's point values for Wins, Losses, and Ties
+		/// </summary>
+		[NotMapped]
+		public int Points => (Wins * League.WinPointValue) + (Losses * League.LossPointValue) + (Ties * League.LossPointValue);
+
+		/// <summary>
+		/// The rank of this team in the league.  1-based
+		/// </summary>
+		[NotMapped]
+		public int Rank => League.GetRank(this);
+
 		public Team() { }
 
 		public Team(string name, League league)
@@ -78,7 +90,7 @@ namespace FantasyLeagueOrganizer.Models
 			League = league;
 			LeagueId = league.Id;
 
-			league.AddTeam(this);
+			league.Teams.Add(this);
 		}
 
 		public override string ToString()

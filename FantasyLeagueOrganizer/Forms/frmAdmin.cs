@@ -22,11 +22,11 @@ namespace FantasyLeagueOrganizer.Forms
 
             SetupInterface();
 
-			if (League != null)
-			{
-				RefreshUI();
-			}
-		}
+            if (League != null)
+            {
+                RefreshUI();
+            }
+        }
 
         private void btnRecreateLeague_Click(object sender, EventArgs e)
         {
@@ -207,21 +207,21 @@ namespace FantasyLeagueOrganizer.Forms
 
             if (cbFillLineups.Checked)
             {
-				//randomly assign enough items for a valid lineup to each team
-				foreach (var team in League.Teams)
-				{
-					foreach (var category in League.Categories)
-					{
-						for (int i = 0; i < category.RequiredCount; i++)
-						{
-							var nextItem = category.FreeAgents.First();
-							nextItem.AddToTeam(team);
-							nextItem.AddToLineup(category);
-						}
-					}
-				}
-			}
-            
+                //randomly assign enough items for a valid lineup to each team
+                foreach (var team in League.Teams)
+                {
+                    foreach (var category in League.Categories)
+                    {
+                        for (int i = 0; i < category.RequiredCount; i++)
+                        {
+                            var nextItem = category.FreeAgents.First();
+                            nextItem.AddToTeam(team);
+                            nextItem.AddToLineup(category);
+                        }
+                    }
+                }
+            }
+
 
             //Generate a random schedule
             League.GenerateRoundRobinSchedule();
@@ -239,11 +239,44 @@ namespace FantasyLeagueOrganizer.Forms
                 }
             }
 
+            //Play the actual matchups
+            if (cbPlayMatchups.Checked && cbFillLineups.Checked)
+            {
+                foreach (var matchup in League.MatchupsRegularSeason)
+                {
+                    matchup.ScoreA = 0;
+                    matchup.ScoreB = 0;
+
+                    foreach (var item in matchup.TeamA.Lineup)
+                    {
+                        matchup.ScoreA += matchup.RankingProvider.GetItemScore(item);
+                    }
+                    foreach (var item in matchup.TeamB.Lineup)
+                    {
+                        matchup.ScoreB += matchup.RankingProvider.GetItemScore(item);
+                    }
+
+                    if (matchup.ScoreA > matchup.ScoreB)
+                    {
+                        matchup.Result = MatchupResult.AWon;
+                    }
+                    else if (matchup.ScoreB > matchup.ScoreA)
+                    {
+                        matchup.Result = MatchupResult.BWon;
+                    }
+                    else
+                    {
+                        matchup.Result = MatchupResult.Tie;
+                    }
+                }
+            }
+
+
             context.Leagues.Add(League);
             context.SaveChanges();
             DatabaseDataChanged.Invoke();
 
-			RefreshUI();
+            RefreshUI();
         }
 
         private void SetupInterface()
@@ -312,7 +345,7 @@ namespace FantasyLeagueOrganizer.Forms
 
             leagueSummary1.Setup(Context);
             leagueSummary2.Setup(Context);
-		}
+        }
 
         private void RefreshMatchupControls()
         {
@@ -322,7 +355,7 @@ namespace FantasyLeagueOrganizer.Forms
             var week = 0;
             while (League.GetMatchups(week).Count > 0)
             {
-                listWeeks.Items.Add($"Week {week+1}");
+                listWeeks.Items.Add($"Week {week + 1}");
                 week++;
             }
 
@@ -336,24 +369,24 @@ namespace FantasyLeagueOrganizer.Forms
             RefreshUI();
         }
 
-		private void LoadLeagueFromDb()
-		{
-			League = DatabaseHelpers.LoadLeague(Context);
-			if (League != null)
-			{
-				RefreshUI();
-			}
-		}
+        private void LoadLeagueFromDb()
+        {
+            League = DatabaseHelpers.LoadLeague(Context);
+            if (League != null)
+            {
+                RefreshUI();
+            }
+        }
 
-		private void btnAddCategoryToLeague_Click(object sender, EventArgs e)
+        private void btnAddCategoryToLeague_Click(object sender, EventArgs e)
         {
             var newCategory = new Category(tbNewCategory.Text, (int)nudRequiredCount.Value, League);
 
-			Context.Categories.Add(newCategory);
-			Context.SaveChanges();
-			DatabaseDataChanged.Invoke();
+            Context.Categories.Add(newCategory);
+            Context.SaveChanges();
+            DatabaseDataChanged.Invoke();
 
-			RefreshUI();
+            RefreshUI();
         }
 
         private void btnAddItemToLeague_Click(object sender, EventArgs e)
@@ -368,19 +401,19 @@ namespace FantasyLeagueOrganizer.Forms
             {
                 //Create new Item
                 var newItem = new Item(tbNewItem.Text, categories, League);
-				Context.Items.Add(newItem);
-			}
+                Context.Items.Add(newItem);
+            }
             else
             {
                 //Modify Existing Item
                 var item = League.GetItem(tbNewItem.Text);
                 item.SetCategories(categories);
-			}
+            }
 
-			Context.SaveChanges();
-			DatabaseDataChanged.Invoke();
+            Context.SaveChanges();
+            DatabaseDataChanged.Invoke();
 
-			RefreshUI();
+            RefreshUI();
         }
 
         private void btnRefreshInterface_Click(object sender, EventArgs e)
@@ -396,20 +429,20 @@ namespace FantasyLeagueOrganizer.Forms
                 var newTeam = new Team(tbTeamNameNew.Text, League);
                 newTeam.Color = colorDialog1.Color;
 
-				Context.Teams.Add(newTeam);
-			}
+                Context.Teams.Add(newTeam);
+            }
             else
             {
                 //existing team being modified
                 var team = League.GetTeam(tbTeamNameCurrent.Text);
                 team.Name = tbTeamNameNew.Text;
                 team.ColorCode = tbNewTeamColor.Text;
-			}
+            }
 
             Context.SaveChanges();
-			DatabaseDataChanged.Invoke();
+            DatabaseDataChanged.Invoke();
 
-			RefreshUI();
+            RefreshUI();
         }
 
         private void btnSelectTeamColor_Click(object sender, EventArgs e)
@@ -449,10 +482,10 @@ namespace FantasyLeagueOrganizer.Forms
         private void btnSaveLeague_Click(object sender, EventArgs e)
         {
             Context.SaveChanges();
-			DatabaseDataChanged.Invoke();
-		}
+            DatabaseDataChanged.Invoke();
+        }
 
-		private void listItems_SelectedIndexChanged(object sender, EventArgs e)
+        private void listItems_SelectedIndexChanged(object sender, EventArgs e)
         {
             var selectedItem = (Item)listItems.SelectedItem;
             tbNewItem.Text = selectedItem.Name;
@@ -485,13 +518,13 @@ namespace FantasyLeagueOrganizer.Forms
             }
 
             League.RemoveItem(selectedItem);
-			using var context = new LeagueDbContext();
-			context.Leagues.Attach(League);
-			context.Items.Remove(selectedItem);
-			context.SaveChanges();
-			DatabaseDataChanged.Invoke();
+            using var context = new LeagueDbContext();
+            context.Leagues.Attach(League);
+            context.Items.Remove(selectedItem);
+            context.SaveChanges();
+            DatabaseDataChanged.Invoke();
 
-			RefreshUI();
+            RefreshUI();
         }
 
         private void btnDeleteCategory_Click(object sender, EventArgs e)
@@ -516,9 +549,9 @@ namespace FantasyLeagueOrganizer.Forms
 
             Context.Remove(selectedCategory);
             Context.SaveChanges();
-			DatabaseDataChanged.Invoke();
+            DatabaseDataChanged.Invoke();
 
-			RefreshUI();
+            RefreshUI();
         }
 
         private void btnModifyLineup_Click(object sender, EventArgs e)
@@ -539,9 +572,9 @@ namespace FantasyLeagueOrganizer.Forms
         {
             League.GenerateRoundRobinSchedule();
             Context.SaveChanges();
-			DatabaseDataChanged.Invoke();
+            DatabaseDataChanged.Invoke();
 
-			RefreshUI();
+            RefreshUI();
         }
 
         private void btnFreeAgents_Click(object sender, EventArgs e)
@@ -570,26 +603,26 @@ namespace FantasyLeagueOrganizer.Forms
             //League.RemoveTeam(selectedTeam);
             Context.Remove(selectedTeam);
             Context.SaveChanges();
-			DatabaseDataChanged.Invoke();
+            DatabaseDataChanged.Invoke();
 
-			RefreshUI();
+            RefreshUI();
         }
 
         private void btnGenerateRankingProvider_Click(object sender, EventArgs e)
         {
             var newRP = GenerateRandomRankingProvider(0, 10);
 
-			using var context = new LeagueDbContext();
-			context.Leagues.Attach(League);
-			context.RankingProviders.Add(newRP);
-			context.SaveChanges();
-			DatabaseDataChanged.Invoke();
-		}
+            using var context = new LeagueDbContext();
+            context.Leagues.Attach(League);
+            context.RankingProviders.Add(newRP);
+            context.SaveChanges();
+            DatabaseDataChanged.Invoke();
+        }
 
-		/// <summary>
-		/// Generates a ranking provider and adds it to the league
-		/// </summary>
-		private RankingProvider GenerateRandomRankingProvider(int scoreMin, int scoreMax)
+        /// <summary>
+        /// Generates a ranking provider and adds it to the league
+        /// </summary>
+        private RankingProvider GenerateRandomRankingProvider(int scoreMin, int scoreMax)
         {
             //First generate a ranking for each item in the league, with random values
             var rankings = new List<ItemRanking>();
@@ -599,7 +632,7 @@ namespace FantasyLeagueOrganizer.Forms
                 rankings.Add(new ItemRanking(item, random.Next(scoreMin, scoreMax)));
             }
 
-			return new RankingProvider($"New Provider {League.RankingProviders.Count + 1}", rankings);
+            return new RankingProvider($"New Provider {League.RankingProviders.Count + 1}", rankings);
         }
 
         private void listWeeks_SelectedIndexChanged(object sender, EventArgs e)
@@ -646,6 +679,9 @@ namespace FantasyLeagueOrganizer.Forms
             }
         }
 
-        
+        private void btnGeneratePlayoffs_Click(object sender, EventArgs e)
+        {
+            var playoffs = PlayoffGenerator.GeneratePlayoffs(League, League.Teams.Count(), PlayoffGenerator.PlayoffStyle.SingleElim);
+        }
     }
 }

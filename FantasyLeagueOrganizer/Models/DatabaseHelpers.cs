@@ -22,7 +22,7 @@ namespace FantasyLeagueOrganizer.Models
 					.Include(l => l.RankingProviders)
 						.ThenInclude(r => r.Rankings)
 							.ThenInclude(r => r.Item)
-					.Include(l => l.Matchups)
+					.Include(l => l.MatchupsRegularSeason)
 					.Single();
 			}
 			catch (Exception ex)

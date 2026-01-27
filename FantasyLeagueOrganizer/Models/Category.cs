@@ -48,7 +48,7 @@ namespace FantasyLeagueOrganizer.Models
 			League = league;
 			LeagueId = league.Id;
 
-			league.AddCategory(this);
+			league.Categories.Add(this);
 		}
 
         public override string ToString()
